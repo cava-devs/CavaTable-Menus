@@ -8,7 +8,7 @@ const port = process.env.PORT || 3005;
 app.use(express.static(path.join(__dirname, '../public')));
 
 app.get('/restaurant/:restaurant_id/menu', (req, res) => {
-  console.log(req.params);
+
 });
 
 
