@@ -1,7 +1,9 @@
 const request = require('supertest');
 const app = require('../server/app');
 const db = require('../database/index');
+const mongoose = require('mongoose');
 
+mongoose.connection.close();
 
 describe('Test the root endpoint', () => {
   test('should respond with statusCode 200 on GET', () => {
