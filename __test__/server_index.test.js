@@ -16,7 +16,6 @@ describe('Test the root endpoint', () => {
       .get('/')
       .then(response => {
         expect(response.text.includes('<html>')).toBe(true);
-        console.log('hello!!!!!');
       })
       .catch(err => console.error(err));
   });
