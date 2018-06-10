@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const SubMenuSectionEntry = props => (
   <div className="entryContainer">
@@ -8,4 +9,9 @@ const SubMenuSectionEntry = props => (
   </div>
 );
 
+SubMenuSectionEntry.propTypes = {
+  entry: PropTypes.object,
+};
+
 export default SubMenuSectionEntry;
+

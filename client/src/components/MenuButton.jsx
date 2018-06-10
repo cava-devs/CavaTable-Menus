@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const MenuButton = props => {
   const createDisplayTitle = name => {
@@ -15,6 +16,12 @@ const MenuButton = props => {
       {createDisplayTitle(props.name)}
     </div>
   );
+};
+
+MenuButton.propTypes = {
+  name: PropTypes.string,
+  selected: PropTypes.string,
+  handleClick: PropTypes.func,
 };
 
 export default MenuButton;

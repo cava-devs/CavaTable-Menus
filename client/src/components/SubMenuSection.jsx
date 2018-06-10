@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import SubMenuSectionEntry from './SubMenuSectionEntry.jsx';
 
 const SubMenuSection = props => {
@@ -37,5 +38,9 @@ const SubMenuSection = props => {
     </div>
   );
 };
+
+SubMenuSection.propTypes = {
+  sectionObj: PropTypes.object,
+}
 
 export default SubMenuSection;
