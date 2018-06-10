@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import $ from 'jquery';
 import MenuButton from './MenuButton.jsx';
 import SubMenuSection from './SubMenuSection.jsx';
 
@@ -9,11 +10,13 @@ class Menu extends React.Component {
     this.state = {
       menu: {},
       selected: '',
+      displayAll: false,
     };
     this.subMenusList = [];
     this.getMenuObj();
 
     this.handleMenuBtnClick = this.handleMenuBtnClick.bind(this);
+    this.toggleDisplayAll = this.toggleDisplayAll.bind(this);
   }
 
   getMenuObj() {
@@ -46,6 +49,19 @@ class Menu extends React.Component {
     });
   }
 
+  toggleDisplayAll() {
+    // const menuContentContainer = document.getElementById('menuContentContainer');
+    // const displayAllBtn = document.getElementById('displayAllBtn');
+    // menuContentContainer.classList.toggle('hidden');
+    // displayAllBtn.classList.toggle('fixed');
+    $('#menuContentContainer').toggleClass('hidden');
+    $('#displayAllBtn').toggleClass('fixed');
+
+    this.setState({
+      displayAll: !this.state.displayAll,
+    });
+  }
+
   render() {
     return (
       <div className="card border-0 rounded-0">
@@ -57,11 +73,17 @@ class Menu extends React.Component {
                       handleClick={this.handleMenuBtnClick}/>;
             })}
           </div>
-          <div>
+          <div id="menuContentContainer" className="hidden">
             {this.state.selected.length > 0 ? 
             this.state.menu[this.state.selected].map((sectionObj, i) => {
               return <SubMenuSection sectionObj={sectionObj} key={i} />;
             }) : null}
+          </div>
+          {!this.state.displayAll ? <div id="fade">&nbsp;</div> : null}
+        </div>
+        <div>
+          <div id="displayAllBtn" onClick={this.toggleDisplayAll}>
+            {this.state.displayAll ? 'Collapse menu' : 'View full menu'}
           </div>
         </div>
       </div>
