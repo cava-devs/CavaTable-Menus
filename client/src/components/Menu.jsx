@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import MenuButton from './MenuButton.jsx';
+import FilterMenu from './FilterMenu.jsx';
 import SubMenuSection from './SubMenuSection.jsx';
 
 class Menu extends React.Component {
@@ -8,12 +9,14 @@ class Menu extends React.Component {
     super(props);
     this.state = {
       menu: {},
-      selected: '',
+      selectedSubMenu: '',
+      selectedFilters: {},
     };
     this.subMenusList = [];
     this.getMenuObj();
 
     this.handleMenuBtnClick = this.handleMenuBtnClick.bind(this);
+    this.handleFilterBtnClick = this.handleFilterBtnClick.bind(this);
   }
 
   getMenuObj() {
@@ -22,7 +25,7 @@ class Menu extends React.Component {
         this.findSubMenusList(response.data[0]);
         this.setState({
           menu: response.data[0],
-          selected: this.subMenusList[0],
+          selectedSubMenu: this.subMenusList[0],
         });
       })
       .catch(err => console.error(err));
@@ -42,7 +45,21 @@ class Menu extends React.Component {
   handleMenuBtnClick(event) {
     let innerHTML = event.target.innerHTML.toLowerCase().replace(' ', '_');
     this.setState({
-      selected: innerHTML,
+      selectedSubMenu: innerHTML,
+    });
+  }
+
+  handleFilterBtnClick(event) {
+    let filters = Object.assign({}, this.state.selectedFilters);
+    let targetFilter = event.target.parentElement.querySelector('.filterTitle');
+    if (filters[targetFilter.innerHTML]) {
+      delete filters[targetFilter.innerHTML];
+    } else {
+      console.log(targetFilter.innerHTML);
+      filters[targetFilter.innerHTML] = true;
+    }
+    this.setState({
+      selectedFilters: filters,
     });
   }
 
@@ -53,13 +70,14 @@ class Menu extends React.Component {
           <h1 className="menu-title">Menu</h1>
           <div className="menuBtnContainer">
             {this.subMenusList.map((subMenu, i) => {
-              return <MenuButton name={subMenu} selected={this.state.selected} key={i} 
+              return <MenuButton name={subMenu} selectedSubMenu={this.state.selectedSubMenu} key={i} 
                       handleClick={this.handleMenuBtnClick}/>;
             })}
+            <FilterMenu filters={this.state.selectedFilters} handleClick={this.handleFilterBtnClick} />
           </div>
           <div>
-            {this.state.selected.length > 0 ? 
-            this.state.menu[this.state.selected].map((sectionObj, i) => {
+            {this.state.selectedSubMenu.length > 0 ? 
+            this.state.menu[this.state.selectedSubMenu].map((sectionObj, i) => {
               return <SubMenuSection sectionObj={sectionObj} key={i} />;
             }) : null}
           </div>
