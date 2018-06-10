@@ -1,6 +1,5 @@
 #menu_module {
   margin-top: 100px;
-  margin-bottom: 100px;
 }
 
 .card-body {
@@ -43,7 +42,7 @@
   text-align: center;
   margin: auto;
   font-weight: 700;
-  background-color: red;
+  background-color: white;
 }
 
 /* MenuButton component */

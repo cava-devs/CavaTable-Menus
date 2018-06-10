@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import $ from 'jquery';
+import _ from 'underscore';
 import MenuButton from './MenuButton.jsx';
 import SubMenuSection from './SubMenuSection.jsx';
 
@@ -14,6 +15,7 @@ class Menu extends React.Component {
     };
     this.subMenusList = [];
     this.getMenuObj();
+    this.handleScroll();
 
     this.handleMenuBtnClick = this.handleMenuBtnClick.bind(this);
     this.toggleDisplayAll = this.toggleDisplayAll.bind(this);
@@ -50,15 +52,34 @@ class Menu extends React.Component {
   }
 
   toggleDisplayAll() {
-    // const menuContentContainer = document.getElementById('menuContentContainer');
-    // const displayAllBtn = document.getElementById('displayAllBtn');
-    // menuContentContainer.classList.toggle('hidden');
-    // displayAllBtn.classList.toggle('fixed');
     $('#menuContentContainer').toggleClass('hidden');
-    $('#displayAllBtn').toggleClass('fixed');
-
+    if ($('#displayAllBtn').html() === 'View full menu') {
+      $('#displayAllBtn').addClass('fixed');
+    } else if ($('#displayAllBtn').html() === 'Collapse menu') {
+      $('#displayAllBtn').removeClass('fixed');
+    }
     this.setState({
       displayAll: !this.state.displayAll,
+    });
+  }
+
+  checkScrollPosition() {
+    console.log('Firing!');
+    let scrollPosition = $(document).scrollTop();
+    let minHeight = $('#menu_module').position().top;
+    let maxHeight = $('#menu_module').height() + minHeight;
+    if (minHeight >= scrollPosition || scrollPosition > maxHeight) {
+      $('#displayAllBtn').removeClass('fixed');
+    }
+  }
+
+  handleScroll() {
+    $(document).ready(() => {
+      $(document).on('scroll', () => {
+        if (this.state.displayAll) {
+          _.debounce(this.checkScrollPosition, 300)();
+        }
+      });
     });
   }
 
