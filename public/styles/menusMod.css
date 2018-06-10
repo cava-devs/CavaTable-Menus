@@ -1,0 +1,91 @@
+#menu_module {
+  margin-top: 100px;
+}
+
+.card-body {
+  padding: 10px;
+}
+
+.menu-title {
+  font-weight: 700;
+  border-bottom: 1px solid #EBEBEB; 
+  padding: 25px 0px;
+  margin-bottom: 20px;
+}
+
+.menuBtnContainer {
+  border-bottom: 1px solid #EBEBEB;
+  padding-bottom: 20px;
+}
+
+/* MenuButton component */
+.menuBtn {
+  display: inline-block;
+  border: 1px solid #EBEBEB;
+  border-radius: 2px;
+  padding: 7px 20px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-right: 20px;
+}
+
+.menuBtn:hover {
+  border: solid 2px #CA4548;
+  padding: 6px 19px;
+}
+
+.selected {
+  border: solid 2px #CA4548;
+  padding: 6px 19px;
+}
+
+/* SubMenuSection component */
+.sectionBody {
+  font-size: 0.95rem;
+  padding-bottom: 20px;
+  margin-top: 20px;
+  border-bottom: 1px solid #EBEBEB;
+}
+
+.sectionTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.sectionContainer {
+  padding: 0px;
+}
+
+/* SubMenSectionEntry component */
+.entryContainer {
+  /* border: 1px solid black; */
+  padding: 5px 5px 0px 5px;
+  margin-bottom: 5px
+}
+
+.entryContainer:hover {
+  box-shadow: -1px 1px 2px #8c8c8c,
+              -2px 2px 2px #8c8c8c,
+              -3px 3px 2px #8c8c8c;
+  transform: translateX(3px);
+}
+
+.entryName {
+  font-weight: 700;
+  width: 80%;
+}
+
+.entryPrice {
+  font-weight: 700;
+  position: relative;
+  top: -23px;
+  text-align: right;
+}
+
+.entryDescription {
+  font-style: italic;
+  position: relative;
+  top: -15px;
+}
