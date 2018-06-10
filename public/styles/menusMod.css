@@ -45,6 +45,11 @@
   background-color: white;
 }
 
+#displayAllBtn:hover {
+  border: solid 2px #CA4548;
+  padding: 9px;
+}
+
 /* MenuButton component */
 .menuBtn {
   display: inline-block;

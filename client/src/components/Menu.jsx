@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-import $ from 'jquery';
 import _ from 'underscore';
 import MenuButton from './MenuButton.jsx';
 import SubMenuSection from './SubMenuSection.jsx';
@@ -52,11 +51,13 @@ class Menu extends React.Component {
   }
 
   toggleDisplayAll() {
-    $('#menuContentContainer').toggleClass('hidden');
-    if ($('#displayAllBtn').html() === 'View full menu') {
-      $('#displayAllBtn').addClass('fixed');
-    } else if ($('#displayAllBtn').html() === 'Collapse menu') {
-      $('#displayAllBtn').removeClass('fixed');
+    const menuContentContainer = document.getElementById('menuContentContainer');
+    const displayAllBtn = document.getElementById('displayAllBtn');
+    menuContentContainer.classList.toggle('hidden');
+    if (displayAllBtn.innerHTML === 'View full menu') {
+      displayAllBtn.classList.add('fixed');
+    } else if (displayAllBtn.innerHTML === 'Collapse menu') {
+      displayAllBtn.classList.remove('fixed');
     }
     this.setState({
       displayAll: !this.state.displayAll,
@@ -64,23 +65,24 @@ class Menu extends React.Component {
   }
 
   checkScrollPosition() {
-    console.log('Firing!');
-    let scrollPosition = $(document).scrollTop();
-    let minHeight = $('#menu_module').position().top;
-    let maxHeight = $('#menu_module').height() + minHeight;
+    const menuModule = document.getElementById('menu_module');
+    const displayAllBtn = document.getElementById('displayAllBtn');
+    let scrollPosition = window.pageYOffset;
+    let minHeight = menuModule.getBoundingClientRect().top + scrollPosition;
+    let maxHeight = menuModule.offsetHeight * 0.65 + minHeight;
     if (minHeight >= scrollPosition || scrollPosition > maxHeight) {
-      $('#displayAllBtn').removeClass('fixed');
-    }
+      displayAllBtn.classList.remove('fixed');
+    } 
   }
 
   handleScroll() {
-    $(document).ready(() => {
-      $(document).on('scroll', () => {
+    document.addEventListener('DOMContentLoaded', () => {
+      document.addEventListener('scroll', () => {
         if (this.state.displayAll) {
           _.debounce(this.checkScrollPosition, 300)();
         }
-      });
-    });
+      }, false);
+    }, false);
   }
 
   render() {
