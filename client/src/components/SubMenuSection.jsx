@@ -40,7 +40,7 @@ const SubMenuSection = props => {
         <div className="row">
           <div className="col">
             {createEntryColumns(filteredEntries).column1.map((entry, i) => {
-              return <SubMenuSectionEntry entry={entry} key={i} />
+              return <SubMenuSectionEntry entry={entry} key={i} />;
             })}
           </div>
           <div className="col">

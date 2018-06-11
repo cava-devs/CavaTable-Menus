@@ -55,7 +55,6 @@ class Menu extends React.Component {
     if (filters[targetFilter.innerHTML]) {
       delete filters[targetFilter.innerHTML];
     } else {
-      console.log(targetFilter.innerHTML);
       filters[targetFilter.innerHTML] = true;
     }
     this.setState({
@@ -71,7 +70,7 @@ class Menu extends React.Component {
           <div className="menuBtnContainer">
             {this.subMenusList.map((subMenu, i) => {
               return <MenuButton name={subMenu} selectedSubMenu={this.state.selectedSubMenu} key={i} 
-                      handleClick={this.handleMenuBtnClick}/>;
+                      handleClick={this.handleMenuBtnClick} />;
             })}
             <FilterMenu filters={this.state.selectedFilters} handleClick={this.handleFilterBtnClick} />
           </div>
