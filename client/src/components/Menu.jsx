@@ -114,9 +114,9 @@ class Menu extends React.Component {
             <FilterMenu filters={this.state.selectedFilters} handleClick={this.handleFilterBtnClick} />
           </div>
           <div id="menuContentContainer" className="hidden">
-            {this.state.selected.length > 0 ? 
-            this.state.menu[this.state.selected].map((sectionObj, i) => {
-              return <SubMenuSection sectionObj={sectionObj} key={i} />;
+            {this.state.selectedSubMenu.length > 0 ? 
+            this.state.menu[this.state.selectedSubMenu].map((sectionObj, i) => {
+              return <SubMenuSection sectionObj={sectionObj} filterObj={this.state.selectedFilters} key={i} />;
             }) : null}
           </div>
           {!this.state.displayAll ? <div id="fade">&nbsp;</div> : null}
