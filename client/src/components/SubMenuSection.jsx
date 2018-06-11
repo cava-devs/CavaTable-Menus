@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import SubMenuSectionEntry from './SubMenuSectionEntry.jsx';
 
-const SubMenuSection = props => {
+const SubMenuSection = (props) => {
   const createEntryColumns = entriesArr => {
     const column1Arr = [];
     const column2Arr = [];
@@ -56,6 +56,7 @@ const SubMenuSection = props => {
 
 SubMenuSection.propTypes = {
   sectionObj: PropTypes.object,
-}
+  filterObj: PropTypes.object,
+};
 
 export default SubMenuSection;
