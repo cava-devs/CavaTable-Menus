@@ -11,7 +11,7 @@ const MenuButton = props => {
   }
   
   return (
-    <div className={props.selected === props.name ? 'menuBtn selected' : 'menuBtn'}
+    <div className={props.selectedSubMenu === props.name ? 'menuBtn selected' : 'menuBtn'}
     onClick={props.handleClick}>
       {createDisplayTitle(props.name)}
     </div>
@@ -20,7 +20,7 @@ const MenuButton = props => {
 
 MenuButton.propTypes = {
   name: PropTypes.string,
-  selected: PropTypes.string,
+  selectedSubMenu: PropTypes.string,
   handleClick: PropTypes.func,
 };
 

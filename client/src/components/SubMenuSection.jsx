@@ -18,18 +18,33 @@ const SubMenuSection = props => {
     return { column1: column1Arr, column2: column2Arr };
   };
 
+  const filterEntries = (entriesArr, filterObj) => {
+    let filters = Object.keys(filterObj);
+    let filteredEntries = entriesArr.filter(entry => {
+      for (let i = 0; i < filters.length; i++) {
+        if (!entry.filter_categories[filters[i]]) {
+          return false;
+        }
+      }
+      return true;
+    });
+    return filteredEntries;
+  };
+
+  let filteredEntries = filterEntries(props.sectionObj.entries, props.filterObj);
+
   return (
     <div className="sectionBody">
       <div className="sectionTitle">{props.sectionObj.menu_section}</div>
       <div className="container sectionContainer">
         <div className="row">
           <div className="col">
-            {createEntryColumns(props.sectionObj.entries).column1.map((entry, i) => {
-              return <SubMenuSectionEntry entry={entry} key={i} />
+            {createEntryColumns(filteredEntries).column1.map((entry, i) => {
+              return <SubMenuSectionEntry entry={entry} key={i} />;
             })}
           </div>
           <div className="col">
-            {createEntryColumns(props.sectionObj.entries).column2.map((entry, i) => {
+            {createEntryColumns(filteredEntries).column2.map((entry, i) => {
               return <SubMenuSectionEntry entry={entry} key={i} />;
             })}
           </div>
