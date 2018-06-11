@@ -13,9 +13,7 @@ const menuSchema = new mongoose.Schema({
       desc: String,
       price: String,
       photoUrl: String,
-      sort_categories: [{
-        category: String,
-      }],
+      filter_categories: {},
     }],
   }],
   lunch: [{
@@ -25,9 +23,7 @@ const menuSchema = new mongoose.Schema({
       desc: String,
       price: String,
       photoUrl: String,
-      sort_categories: [{
-        category: String,
-      }],
+      filter_categories: {},
     }],
   }],
   dinner: [{
@@ -37,9 +33,7 @@ const menuSchema = new mongoose.Schema({
       desc: String,
       price: String,
       photoUrl: String,
-      sort_categories: [{
-        category: String,
-      }],
+      filter_categories: {},
     }],
   }],
 });

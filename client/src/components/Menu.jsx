@@ -78,7 +78,7 @@ class Menu extends React.Component {
           <div>
             {this.state.selectedSubMenu.length > 0 ? 
             this.state.menu[this.state.selectedSubMenu].map((sectionObj, i) => {
-              return <SubMenuSection sectionObj={sectionObj} key={i} />;
+              return <SubMenuSection sectionObj={sectionObj} filterObj={this.state.selectedFilters} key={i} />;
             }) : null}
           </div>
         </div>
