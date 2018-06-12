@@ -94,7 +94,8 @@
 .entryContainer {
   /* border: 1px solid black; */
   padding: 5px 5px 0px 5px;
-  margin-bottom: 5px
+  margin-bottom: 5px;
+  overflow: hidden;
 }
 
 .entryContainer:hover {
@@ -152,4 +153,59 @@
 .filterTitle {
   display: inline-block;
   margin: 5px 19px 5px 0px;
+}
+
+.black {
+  background-color: black;
+}
+
+
+.entryPhoto {
+  max-height: 250px;
+}
+
+.slideIn {
+  animation-duration: 1s;
+  animation-name: slideIn;
+}
+@keyframes slideIn {
+  from {
+    margin-left: 100%;
+    /* width: 300%;  */
+  }
+  to {
+    margin-left: 0%;
+    /* width: 100%; */
+  }
+}
+
+.slideOut {
+  animation-duration: 1s;
+  animation-name: slideOut;
+}
+@keyframes slideOut {
+  from {
+    margin-left: 0%;
+  }
+  to {
+    margin-left: 100%;
+  }
+}
+
+
+
+
+
+.slideout {
+
+}
+
+@keyframes slideDown {
+  from {
+
+  }
+
+  to {
+
+  }
 }
