@@ -4,7 +4,7 @@ const db = require('../database/index');
 
 const app = express();
 
-app.use(express.static(path.join(__dirname, '../public')));
+app.use('/restaurant/:restaurantId', express.static(path.join(__dirname, '../public')));
 
 app.get('/restaurant/:restaurantId/menu', (req, res) => {
   db.retrieve(req.params.restaurantId, (err, results) => {

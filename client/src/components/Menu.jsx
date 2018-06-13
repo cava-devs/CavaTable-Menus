@@ -24,7 +24,7 @@ class Menu extends React.Component {
   }
 
   getMenuObj() {
-    axios.get('/restaurant/1001/menu')
+    axios.get(`/restaurant/${this.props.match.params.restaurantId}/menu`)
       .then(response => {
         this.findSubMenusList(response.data[0]);
         this.setState({
