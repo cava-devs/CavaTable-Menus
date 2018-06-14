@@ -155,10 +155,6 @@
   margin: 5px 19px 5px 0px;
 }
 
-.black {
-  background-color: black;
-}
-
 
 .entryPhoto {
   max-height: 250px;
@@ -168,6 +164,7 @@
   animation-duration: 1s;
   animation-name: slideIn;
 }
+
 @keyframes slideIn {
   from {
     margin-left: 100%;
@@ -183,25 +180,12 @@
   animation-duration: 1s;
   animation-name: slideOut;
 }
+
 @keyframes slideOut {
   from {
     margin-left: 0%;
   }
   to {
     margin-left: 100%;
-  }
-}
-
-.slideout {
-
-}
-
-@keyframes slideDown {
-  from {
-
-  }
-
-  to {
-
   }
 }

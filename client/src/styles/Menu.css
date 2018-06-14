@@ -1,0 +1,52 @@
+.menuModule {
+  margin-top: 100px;
+}
+
+.menuBody {
+  padding: 10px;
+}
+
+.menu-title {
+  font-weight: 700;
+  border-bottom: 1px solid #EBEBEB; 
+  padding: 25px 0px;
+  margin-bottom: 20px;
+}
+
+.menuBtnContainer {
+  border-bottom: 1px solid #EBEBEB;
+  padding-bottom: 20px;
+}
+
+.hidden {
+  height: 500px;
+  overflow: hidden;
+}
+
+.fixed {
+  position: fixed;
+  bottom: 50px;
+  left: 355px;
+}
+
+.fade {
+  background: linear-gradient(to bottom, rgba(225, 255, 255, 0), rgba(255, 255, 255, 1));
+  height: 250px;
+  margin-top: -250px;
+  position: relative;
+}
+
+.displayAllBtn {
+  border: solid 1px #EBEBEB;
+  padding: 10px;
+  width: 250px;
+  text-align: center;
+  margin: auto;
+  font-weight: 700;
+  background-color: white;
+}
+
+.displayAllBtn:hover {
+  border: solid 2px #CA4548;
+  padding: 9px;
+}

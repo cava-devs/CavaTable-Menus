@@ -1,0 +1,30 @@
+.filterContainer {
+  margin-top: 15px;
+}
+
+.filterBtn {
+  display: inline-block;
+  border: 1px solid #EBEBEB;
+  border-radius: 2px;
+  padding: 1px 1px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-right: 15px;
+}
+
+.filterBtn:hover {
+  border: solid 2px #CA4548;
+  padding: 0px;
+}
+
+.filterCheckbox {
+  margin: 9px 7px 9px 15px;
+  width: 15px;
+  height: 15px;
+}
+
+.filterTitle {
+  display: inline-block;
+  margin: 5px 15px 5px 0px;
+}

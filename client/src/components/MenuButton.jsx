@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styles from '../styles/MenuButton.css';
 
 const MenuButton = props => {
   const createDisplayTitle = name => {
@@ -11,7 +12,7 @@ const MenuButton = props => {
   }
   
   return (
-    <div className={props.selectedSubMenu === props.name ? 'menuBtn selected' : 'menuBtn'}
+    <div className={props.selectedSubMenu === props.name ? `${styles.menuBtn} ${styles.selected}` : `${styles.menuBtn}`}
     onClick={props.handleClick}>
       {createDisplayTitle(props.name)}
     </div>
