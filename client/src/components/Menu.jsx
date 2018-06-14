@@ -4,6 +4,8 @@ import _ from 'underscore';
 import MenuButton from './MenuButton.jsx';
 import FilterMenu from './FilterMenu.jsx';
 import SubMenuSection from './SubMenuSection.jsx';
+import styles from '../styles/Menu.css';
+import { filterTitle } from '../styles/FilterMenu.css';
 
 class Menu extends React.Component {
   constructor(props) {
@@ -17,6 +19,7 @@ class Menu extends React.Component {
     this.subMenusList = [];
     this.getMenuObj();
     this.handleScroll();
+    console.log(filterTitle);
 
     this.handleMenuBtnClick = this.handleMenuBtnClick.bind(this);
     this.handleFilterBtnClick = this.handleFilterBtnClick.bind(this);
@@ -55,7 +58,7 @@ class Menu extends React.Component {
 
   handleFilterBtnClick(event) {
     let filters = Object.assign({}, this.state.selectedFilters);
-    let targetFilter = event.target.parentElement.querySelector('.filterTitle');
+    let targetFilter = event.target.parentElement.querySelector(`.${filterTitle}`);
     if (filters[targetFilter.innerHTML]) {
       delete filters[targetFilter.innerHTML];
     } else {
@@ -69,7 +72,7 @@ class Menu extends React.Component {
   toggleDisplayAll() {
     const menuContentContainer = document.getElementById('menuContentContainer');
     const displayAllBtn = document.getElementById('displayAllBtn');
-    menuContentContainer.classList.toggle('hidden');
+    menuContentContainer.classList.toggle(styles.hidden);
     if (displayAllBtn.innerHTML === 'View full menu') {
       displayAllBtn.classList.add('fixed');
     } else if (displayAllBtn.innerHTML === 'Collapse menu') {
@@ -81,7 +84,7 @@ class Menu extends React.Component {
   }
 
   checkScrollPosition() {
-    const menuModule = document.getElementById('menu_module');
+    const menuModule = document.getElementById('menuModule');
     const displayAllBtn = document.getElementById('displayAllBtn');
     let scrollPosition = window.pageYOffset;
     let minHeight = menuModule.getBoundingClientRect().top + scrollPosition;
@@ -103,26 +106,26 @@ class Menu extends React.Component {
 
   render() {
     return (
-      <div className="card border-0 rounded-0">
-        <div className="card-body">
-          <h1 className="menu-title">Menu</h1>
-          <div className="menuBtnContainer">
+      <div className={`card border-0 rounded-0 ${styles.menuModule}`}>
+        <div className={`card-body ${styles.menuBody}`}>
+          <h1 className={styles['menu-title']}>Menu</h1>
+          <div className={styles.menuBtnContainer}>
             {this.subMenusList.map((subMenu, i) => {
               return <MenuButton name={subMenu} selectedSubMenu={this.state.selectedSubMenu} key={i} 
                       handleClick={this.handleMenuBtnClick} />;
             })}
             <FilterMenu filters={this.state.selectedFilters} handleClick={this.handleFilterBtnClick} />
           </div>
-          <div id="menuContentContainer" className="hidden">
+          <div id="menuContentContainer" className={styles.hidden}>
             {this.state.selectedSubMenu.length > 0 ? 
             this.state.menu[this.state.selectedSubMenu].map((sectionObj, i) => {
               return <SubMenuSection sectionObj={sectionObj} filterObj={this.state.selectedFilters} key={i} />;
             }) : null}
           </div>
-          {!this.state.displayAll ? <div id="fade">&nbsp;</div> : null}
+          {!this.state.displayAll ? <div className={styles.fade}>&nbsp;</div> : null}
         </div>
         <div>
-          <div id="displayAllBtn" onClick={this.toggleDisplayAll}>
+          <div id="displayAllBtn" className={styles.displayAllBtn} onClick={this.toggleDisplayAll}>
             {this.state.displayAll ? 'Collapse menu' : 'View full menu'}
           </div>
         </div>

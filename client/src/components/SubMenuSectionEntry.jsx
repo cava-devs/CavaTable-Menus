@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Transition from 'react-transition-group/Transition';
+import styles from '../styles/SubMenuSectionEntry.css';
+
 
 class SubMenuSectionEntry extends React.Component {
   constructor(props) {
@@ -16,13 +17,12 @@ class SubMenuSectionEntry extends React.Component {
     let image;
     // console.log(event.target.classList);
     if (this.state.isActive) {
-      if (event.target.classList.contains('entryContainer')) {
-        image = event.target.querySelector('.entryPhoto');
+      if (event.target.classList.contains(styles.entryContainer)) {
+        image = event.target.querySelector(`.${styles.entryPhoto}`);
       } else {
-        image = event.target.parentElement.querySelector('.entryPhoto');
+        image = event.target.parentElement.querySelector(`.${styles.entryPhoto}`);
       }
-      image.classList.toggle('slideOut');
-      // image.classList.toggle('slideIn');
+      image.classList.toggle(styles.slideOut);
       setTimeout(() => {
         this.setState({
           isActive: !this.state.isActive,
@@ -45,12 +45,12 @@ class SubMenuSectionEntry extends React.Component {
   
   render() {
     return (
-      <div className="card entryContainer" onClick={this.handleMenuEntryClick} onMouseLeave={this.handleMouseLeave}>
-        <span className="entryName">{this.props.entry.name}</span>
-        <div className="entryPrice">{this.props.entry.price}</div>
-        <div className="entryDescription">{this.props.entry.desc}</div>
+      <div className={`card ${styles.entryContainer}`} onClick={this.handleMenuEntryClick} onMouseLeave={this.handleMouseLeave}>
+        <span className={styles.entryName}>{this.props.entry.name}</span>
+        <div className={styles.entryPrice}>{this.props.entry.price}</div>
+        <div className={styles.entryDescription}>{this.props.entry.desc}</div>
         {this.state.isActive ? (
-          <img className="card-img-top entryPhoto slideIn" src={this.props.entry.photoUrl}></img>
+          <img className={`card-img-top ${styles.entryPhoto} ${styles.slideIn}`} src={this.props.entry.photoUrl}></img>
         ) : null}
       </div>
     );

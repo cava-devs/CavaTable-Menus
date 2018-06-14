@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import SubMenuSectionEntry from './SubMenuSectionEntry.jsx';
+import styles from '../styles/SubMenuSection.css';
 
 const SubMenuSection = (props) => {
   const createEntryColumns = entriesArr => {
@@ -34,9 +35,9 @@ const SubMenuSection = (props) => {
   let filteredEntries = filterEntries(props.sectionObj.entries, props.filterObj);
 
   return (
-    <div className="sectionBody">
-      <div className="sectionTitle">{props.sectionObj.menu_section}</div>
-      <div className="container sectionContainer">
+    <div className={styles.sectionBody}>
+      <div className={styles.sectionTitle}>{props.sectionObj.menu_section}</div>
+      <div className={`container ${styles.sectionContainer}`}>
         <div className="row">
           <div className="col">
             {createEntryColumns(filteredEntries).column1.map((entry, i) => {

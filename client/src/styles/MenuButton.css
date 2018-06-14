@@ -1,0 +1,20 @@
+.menuBtn {
+  display: inline-block;
+  border: 1px solid #EBEBEB;
+  border-radius: 2px;
+  padding: 7px 20px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-right: 20px;
+}
+
+.menuBtn:hover {
+  border: solid 2px #CA4548;
+  padding: 6px 19px;
+}
+
+.selected {
+  border: solid 2px #CA4548;
+  padding: 6px 19px;
+}

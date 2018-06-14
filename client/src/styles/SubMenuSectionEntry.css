@@ -1,0 +1,65 @@
+.entryContainer {
+  padding: 5px 5px 0px 5px;
+  margin-bottom: 5px;
+  overflow: hidden;
+}
+
+.entryContainer:hover {
+  box-shadow: -1px 1px 2px #8c8c8c,
+              -2px 2px 2px #8c8c8c,
+              -3px 3px 2px #8c8c8c;
+  transform: translateX(3px);
+}
+
+.entryName {
+  font-weight: 700;
+  width: 80%;
+}
+
+.entryPrice {
+  font-weight: 700;
+  position: relative;
+  top: -23px;
+  text-align: right;
+}
+
+.entryDescription {
+  font-style: italic;
+  position: relative;
+  top: -15px;
+}
+
+
+.entryPhoto {
+  max-height: 250px;
+}
+
+.slideIn {
+  animation-duration: 1s;
+  animation-name: slideIn;
+}
+
+@keyframes slideIn {
+  from {
+    margin-left: 100%;
+    /* width: 300%;  */
+  }
+  to {
+    margin-left: 0%;
+    /* width: 100%; */
+  }
+}
+
+.slideOut {
+  animation-duration: 1s;
+  animation-name: slideOut;
+}
+
+@keyframes slideOut {
+  from {
+    margin-left: 0%;
+  }
+  to {
+    margin-left: 120%;
+  }
+}
