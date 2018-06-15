@@ -7,4 +7,4 @@ ReactDOM.render((
 <BrowserRouter>
   <Route exact path="/restaurant/:restaurantId" component={Menu} />
 </BrowserRouter>
-), document.getElementById('menusModule'));
+), document.getElementById('menuModule'));
