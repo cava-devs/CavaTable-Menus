@@ -15,7 +15,6 @@ class SubMenuSectionEntry extends React.Component {
 
   handleMenuEntryClick(event) {
     let image;
-    // console.log(event.target.classList);
     if (this.state.isActive) {
       if (event.target.classList.contains(styles.entryContainer)) {
         image = event.target.querySelector(`.${styles.entryPhoto}`);
