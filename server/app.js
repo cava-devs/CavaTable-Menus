@@ -4,7 +4,7 @@ const db = require('../database/index');
 
 const app = express();
 
-app.use('/restaurant/:restaurantId', express.static(path.join(__dirname, '../public')));
+app.use('/menusBundle.js', express.static(path.join(__dirname, '../public/dist/bundle.js')));
 
 app.get('/restaurant/:restaurantId/menu', (req, res) => {
   db.retrieve(req.params.restaurantId, (err, results) => {
