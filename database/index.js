@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
-const menusData = require('./data.js');
 
-mongoose.connect('mongodb://localhost/cavatable_menus');
+const mongoURL = process.env.mongoURL || 'mongodb://localhost/cavatable_overviews';
+
+mongoose.connect(mongoURL);
 
 const menuSchema = new mongoose.Schema({
   rest_id: Number,
@@ -38,12 +39,7 @@ const menuSchema = new mongoose.Schema({
   }],
 });
 
-const MenuModel = mongoose.model('Menu', menuSchema);
-
-MenuModel.remove({})
-  .then(() => MenuModel.insertMany(menusData))
-  .then(() => console.log('Successfully stored data in database'))
-  .catch(err => console.log(err));
+const MenuModel = mongoose.model('menus', menuSchema);
 
 const retrieve = (restaurantId, handleResponse) => {
   MenuModel.find({ rest_id: parseInt(restaurantId) })
