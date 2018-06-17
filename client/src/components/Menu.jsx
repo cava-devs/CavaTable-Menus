@@ -74,9 +74,9 @@ class Menu extends React.Component {
     const displayAllBtn = document.getElementById('displayAllBtn');
     menuContentContainer.classList.toggle(styles.hidden);
     if (displayAllBtn.innerHTML === 'View full menu') {
-      displayAllBtn.classList.add('fixed');
+      displayAllBtn.classList.add(styles.fixed);
     } else if (displayAllBtn.innerHTML === 'Collapse menu') {
-      displayAllBtn.classList.remove('fixed');
+      displayAllBtn.classList.remove(styles.fixed);
     }
     this.setState({
       displayAll: !this.state.displayAll,
@@ -84,13 +84,13 @@ class Menu extends React.Component {
   }
 
   checkScrollPosition() {
-    const menuModule = document.getElementById('menuModule');
+    const menusModule = document.getElementById('menusModule');
     const displayAllBtn = document.getElementById('displayAllBtn');
     let scrollPosition = window.pageYOffset;
-    let minHeight = menuModule.getBoundingClientRect().top + scrollPosition;
-    let maxHeight = menuModule.offsetHeight * 0.65 + minHeight;
+    let minHeight = menusModule.getBoundingClientRect().top + scrollPosition;
+    let maxHeight = menusModule.offsetHeight * 0.65 + minHeight;
     if (minHeight >= scrollPosition || scrollPosition > maxHeight) {
-      displayAllBtn.classList.remove('fixed');
+      displayAllBtn.classList.remove(styles.fixed);
     }
   }
 
@@ -108,7 +108,7 @@ class Menu extends React.Component {
     return (
       <div className={`card border-0 rounded-0 ${styles.menuModule}`}>
         <div className={`card-body ${styles.menuBody}`}>
-          <h1 className={styles['menu-title']}>Menu</h1>
+          <h3 className={styles['menu-title']}>Menu</h3>
           <div className={styles.menuBtnContainer}>
             {this.subMenusList.map((subMenu, i) => {
               return <MenuButton name={subMenu} selectedSubMenu={this.state.selectedSubMenu} key={i} 

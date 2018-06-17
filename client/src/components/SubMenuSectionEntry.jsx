@@ -44,7 +44,7 @@ class SubMenuSectionEntry extends React.Component {
   
   render() {
     return (
-      <div className={`card ${styles.entryContainer}`} onClick={this.handleMenuEntryClick} onMouseLeave={this.handleMouseLeave}>
+      <div className={`card border-0 ${styles.entryContainer}`} onClick={this.handleMenuEntryClick} onMouseLeave={this.handleMouseLeave}>
         <span className={styles.entryName}>{this.props.entry.name}</span>
         <div className={styles.entryPrice}>{this.props.entry.price}</div>
         <div className={styles.entryDescription}>{this.props.entry.desc}</div>
