@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const mongoURL = process.env.mongoURL || 'mongodb://localhost/cavatable_overviews';
+const mongoURL = process.env.mongoURL || 'mongodb://localhost/cavatable_menus';
 
 mongoose.connect(mongoURL);
 

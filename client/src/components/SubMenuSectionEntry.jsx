@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Motion, StaggeredMotion, spring } from 'react-motion';
+import { Motion, spring } from 'react-motion';
+import { UnmountClosed as Collapse } from 'react-collapse';
 import styles from '../styles/SubMenuSectionEntry.css';
 
 
@@ -9,108 +10,71 @@ class SubMenuSectionEntry extends React.Component {
     super(props);
     this.state = {
       isActive: false,
+      isHovered: false,
     };
-    this.initialLoad = true;
     this.handleMenuEntryClick = this.handleMenuEntryClick.bind(this);
-    // this.handleMouseLeave = this.handleMouseLeave.bind(this);
+    this.handleMouseLeave = this.handleMouseLeave.bind(this);
+    this.handleMouseEnter = this.handleMouseEnter.bind(this);
   }
 
-  handleMenuEntryClick(event) {
-    let image;
+  handleMenuEntryClick() {
+    this.setState({
+      isActive: !this.state.isActive,
+    });
+  }
+
+  handleMouseEnter() {
+    this.setState({
+      isHovered: !this.state.isHovered,
+    });
+  }
+
+  handleMouseLeave() {
     if (this.state.isActive) {
-      if (event.target.classList.contains(styles.entryContainer)) {
-        image = event.target.querySelector(`.${styles.entryPhoto}`);
-      } else {
-        image = event.target.parentElement.querySelector(`.${styles.entryPhoto}`);
-      }
-      // image.classList.toggle(styles.slideOut);
-      // setTimeout(() => {
-      //   this.setState({
-      //     isActive: !this.state.isActive,
-      //   });
-      // }
       this.setState({
         isActive: !this.state.isActive,
+        isHovered: !this.state.isHovered,
       });
     } else {
       this.setState({
-        isActive: !this.state.isActive,
+        isHovered: !this.state.isHovered,
       });
     }
   }
 
-  // handleMouseLeave() {
-  //   if (this.state.isActive) {
-  //     this.setState({
-  //       isActive: !this.state.isActive,
-  //     });
-  //   }
-  // }
-
-  // onClick={this.handleMenuEntryClick} onMouseLeave={this.handleMouseLeave}
-
-
-  growMenuItem() {
-
-  }
-  
   render() {
-    if (this.state.isActive) {
-      return (
-        <Motion
-           defaultStyle={{scale: 1}}
-           style={{scale: spring(1.2)}}
-        >
-        {
-          style => (
-            <div className={`${styles.entryContainer}`} style={{transform: `scale3d(${style.scale}, ${style.scale}, ${style.scale})`}} onClick={this.handleMenuEntry}>
+    return (
+      <Motion defaultStyle={{translateX: 0}} style={{translateX: spring(7, {stiffness: 180, damping: 6})}}>
+        {style => {
+          console.log(style);
+          return this.state.isHovered ? (
+            <div className={styles.entryContainer} style={{transform: `translateX(${style.translateX}px)`}} onClick={this.handleMenuEntryClick} onMouseLeave={this.handleMouseLeave} onMouseEnter={this.handleMouseEnter}>
+              <Collapse isOpened={this.state.isActive} theme={{collapse: styles.collapseContainer, content: styles.menuImgContainer}} springConfig={{stiffness: 180, damping: 18}}
+                        onRest={this.transitionOpacity}          
+              >
+                <img className={styles.entryPhoto} src={this.props.entry.photoUrl}></img>
+              </Collapse> 
+              <div onClick={this.handleMenuEntryClick}>
                 <span className={styles.entryName}>{this.props.entry.name}</span>
                 <div className={styles.entryPrice}>{this.props.entry.price}</div>
                 <div className={styles.entryDescription}>{this.props.entry.desc}</div>
-                {this.state.isActive ? (
-                  <img className={`${styles.entryPhoto} ${styles.slideIn}`} src={this.props.entry.photoUrl}></img>
-                ) : null}
-              {/* </div> */}
+              </div>
             </div>
-          )
-        }
-        </Motion>
-      );
-    } else if (!this.state.isActive && !this.initialLoad) {
-      return (
-        <Motion
-            defaultStyle={{scale: 1.2}}
-            style={{scale: spring(1)}}
-        >
-        {
-          style => (
-            <div className={`${styles.entryContainer}`} style={{transform: `scale3d(${style.scale}, ${style.scale}, ${style.scale})`}} >
-              {/* <div style={{transform: `scaleY(1 - ${style.scale} / 2`}}> */}
+          ) : (
+            <div className={styles.entryContainer} onClick={this.handleMenuEntryClick} onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
+              <Collapse isOpened={this.state.isActive} theme={{collapse: styles.collapseContainer, content: styles.menuImgContainer}} springConfig={{stiffness: 180, damping: 18}}>
+                <img className={styles.entryPhoto} src={this.props.entry.photoUrl}></img>
+              </Collapse> 
+              <div onClick={this.handleMenuEntryClick}>
                 <span className={styles.entryName}>{this.props.entry.name}</span>
                 <div className={styles.entryPrice}>{this.props.entry.price}</div>
                 <div className={styles.entryDescription}>{this.props.entry.desc}</div>
-                {this.state.isActive ? (
-                  <img className={`${styles.entryPhoto} ${styles.slideIn}`} src={this.props.entry.photoUrl}></img>
-                ) : null}
-              {/* </div> */}
+              </div>
             </div>
           )
-        }
-        </Motion>
-      );
-    } else if (this.state.isActive && this.initialLoad) {
-      return (
-        <div className={`${styles.entryContainer}`} >
-            <span className={styles.entryName}>{this.props.entry.name}</span>
-            <div className={styles.entryPrice}>{this.props.entry.price}</div>
-            <div className={styles.entryDescription}>{this.props.entry.desc}</div>
-            {this.state.isActive ? (
-              <img className={`${styles.entryPhoto} ${styles.slideIn}`} src={this.props.entry.photoUrl}></img>
-            ) : null}
-          {/* </div> */}
-        </div>
-      );
-    }
+        }}
+      </Motion>
+    );
   }
 }
 
