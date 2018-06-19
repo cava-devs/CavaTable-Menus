@@ -1,13 +1,14 @@
 # Project Name
 
-> Project description
+> Menu module of full-stack webpage clone of OpenTable restaurant webpage
 
 ## Related Projects
 
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
+  - https://github.com/cava-devs/anoop-overviews
+  - https://github.com/cava-devs/vincent-photos
+  - https://github.com/cava-devs/andrew-reservation
+  - https://github.com/cava-devs/chrystal-reviews
+  - https://github.com/cava-devs/anoop-proxy-overviews
 
 ## Table of Contents
 
@@ -33,7 +34,9 @@ An `nvmrc` file is included if using [nvm](https://github.com/creationix/nvm).
 From within the root directory:
 
 ```sh
-npm install -g webpack
-npm install
+Run "npm install" to install dependencies.
+Start MongoDB
+Run "npm run build" to build webpack bundle
+Run "npm start" to start the server
 ```
 
