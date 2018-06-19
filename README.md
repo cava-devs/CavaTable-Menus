@@ -38,5 +38,6 @@ Run "npm install" to install dependencies.
 Start MongoDB
 Run "npm run build" to build webpack bundle
 Run "npm start" to start the server
+Add "/restaurant/{id}" to the end of the url. (id range is from 1001 to 1100)
 ```
 
