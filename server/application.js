@@ -4,9 +4,10 @@ const db = require('../database/index');
 
 const app = express();
 
+app.use('/restaurant/:restaurantId', express.static(path.join(__dirname, '../public/index.html')));
 app.use('/menusBundle.js', express.static(path.join(__dirname, '../public/dist/bundle.js')));
 
-app.get('/restaurant/:restaurantId/menu', (req, res) => {
+app.get('/menus/restaurant/:restaurantId/menu', (req, res) => {
   db.retrieve(req.params.restaurantId, (err, results) => {
     if (err && err.message.includes('Cast to number failed for value "NaN"')) {
       res.status(400).json('Bad request');
