@@ -241,13 +241,9 @@ const generateMenu = () => {
     console.timeEnd('menu data Write to File');
 };
 
-let filename = sqlGenerator ? './menuSQL.csv' : './menuNonSQL.csv';
-let fileToWrite = fs.createWriteStream(path.resolve('./dummydata', filename));
-
-function generateMenuData(writer) {
+const generateMenuData = (writer, start, end) => {
     let gap = 1000;
-    let i = 1; 
-    let end = 10000000; //10000000
+    let i = start; 
     console.time('menu data Write to File');
     write();
     console.timeEnd('menu data Write to File');
@@ -270,12 +266,22 @@ function generateMenuData(writer) {
         writer.once('drain', write);
       }
     }
-    
-}
+};
 
-//generateMenuData(fileToWrite);
+const generateMenuByChunk = (noOfChunk) => {
+    let currentChunk = 1;
+    let chunkSize = 10000000 / noOfChunk; //10000000
+    let start = 1;
+    while (currentChunk <= noOfChunk) {
+        let filename = sqlGenerator ? `./menuSQL${currentChunk}.csv` : `./menuNonSQL${currentChunk}.csv`;
+        let fileToWrite = fs.createWriteStream(path.resolve('./dummydata', filename));
+        generateMenuData(fileToWrite, start, start + chunkSize);
+        currentChunk++;
+        start += chunkSize;
+    }
+};
 
-//generateMenu(); //generate menus by separating into 20 chunks
+//generateMenuByChunk(10);
 
 //generate menu_dietary table ------------------------------>
 //mapping menus with dietary

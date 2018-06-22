@@ -10,6 +10,7 @@
   "scripts": {
     "start": "nodemon server/index.js",
     "build": "webpack -d --watch",
+    "seed" : "psql -U fiona abletable < database/postGen.sql",
     "test": "jest"
   },
   "dependencies": {
