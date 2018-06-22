@@ -8,6 +8,7 @@ const fs = require('fs');
 const faker = require('faker');
 const path = require('path');
 const csv = require("fast-csv");
+const stream = require('stream');
 
 //Assumptions --------------------------->
 const startID = 1;
@@ -30,6 +31,7 @@ let writeFile = (filename, data) => {
          });
 };
 
+//some problems of this function
 let appendFile = (filepath, data) => {
     return new Promise((resolve, reject) => {
         fs.appendFile(
@@ -45,18 +47,6 @@ let appendFile = (filepath, data) => {
         );
     });
 };
-
-// let appendFile = (filename, data) => {
-//     fs.appendFile(
-//         path.resolve('./dummydata', filename), 
-//         data,
-//         (err) => {
-//             if (err) {
-//                 throw err;
-//             }
-//         }
-//     );
-// };
 
 
 let generateData = (arrayOfChoice) => {
@@ -85,61 +75,56 @@ const generateDietary = () => {
 //sqlGenerator ? writeFile('./dietary.csv', generateDietary()) : ''; //invoke func
 
 //generate restaurants ------------------------------------>
+const generateRestaurantWrite = () => {
+    // let noOfData = 1000000;
+    // let start = startID;
+    // console.time('10M data Write to File');
+    // for (let i = 0; i < 10; i++) {
+    //     console.time('1M data generate');
+    //     let chunkOfData = "";
+    //     for (let j = start; j < start + noOfData; j++ ) {
+    //         chunkOfData += `${faker.lorem.words(2)}\n`;
+    //     }
+    //     console.timeEnd('1M data generate');
+    //     start = start + noOfData;
+    //     try {
+    //         console.time('Write 1M data to file');
+    //         fs.writeFileSync(
+    //             `./dummydata/restaurant_${i}.csv`,
+    //             chunkOfData
+    //         );
+    //         console.timeEnd('Write 1M data to file');
+    //     } catch (err) {
+    //         throw err;
+            
+    //     }
+    // }
+    // console.timeEnd('10M data Write to File');
+};
+
 const generateRestaurant = () => {
-    let noOfData = 1000000;
+    let noOfRest = 1000000;
     let start = startID;
+    let prevFinished = true;
     console.time('10M data Write to File');
     for (let i = 0; i < 10; i++) {
-        console.time('1M data generate');
         let chunkOfData = "";
-        for (let j = start; j < start + noOfData; j++ ) {
-            chunkOfData += `${faker.lorem.words(2)}\n`;
+        if (prevFinished) {
+            prevFinished = false;
+            for (let j = start; j < start + noOfRest; j++ ) {
+                chunkOfData += `${faker.lorem.words(2)}\n`;
+            }
+           prevFinished = appendFile(
+               './restaurant.csv',
+               chunkOfData
+           );
         }
-        console.timeEnd('1M data generate');
-        start = start + noOfData;
-        try {
-            console.time('Write 1M data to file');
-            fs.writeFileSync(
-                `./dummydata/restaurant_${i}.csv`,
-                chunkOfData
-            );
-            console.timeEnd('Write 1M data to file');
-        } catch (err) {
-            throw err;
-            
-        }
+        start = start + noOfRest;
     }
     console.timeEnd('10M data Write to File');
 };
 
-const generateRestaurant2 = (noOfChunk) => {
-    // let startRestID = startID;
-    // let accumulator = Math.floor( ( endID - startID ) / noOfChunk );
-    // let chunkOfData;
-    // // let csvStream = csv.createWriteStream({header: true});
-    // while (startRestID <= endID) {
-    //     chunkOfData = "";
-    //     for (let i = startRestID; i <= startRestID + accumulator; i++) {
-    //         // let current = [i, faker.company.companyName()];
-    //         let current = faker.company.companyName();
-    //         chunkOfData += current + '\n';
-    //     }
-    //     fs.appendFile(
-    //         './restaurant.txt', 
-    //         chunkOfData,
-    //         err => {
-    //             if (err) {
-    //                 throw err;
-    //             }
-    //         }
-    //     ); 
-    //     startRestID += accumulator + 1;
-    // }
-    // console.log('finished');
-};
-
-// generateRestaurant();
-//generateRestaurant();  ///////////////////////////////////////invoke func 
+//generateRestaurant(); //invoke func
 
 //generate menu_section ----------------------------------->
 let menuSectionChoice = {
@@ -176,18 +161,13 @@ const generateMenuSection = () => {
 
 //sqlGenerator ? writeFile('./menuSection.csv', generateMenuSection()) : ''; //invoke func
 
-//generate menu table ------------------------------------->
-let name = () => faker.commerce.productName();
-let desc = () => faker.lorem.sentence();
-let price = () => ('$' + faker.commerce.price());
-let photoUrl = () => faker.image.food();
-
 let generateGeneralInfo = (restID) => {
+    //use push try ------------------------------------------>
     let output = `${restID}|`;
-    output += faker.lorem.words(2) + '|';
-    output += faker.lorem.sentence() + '|';
-    output += faker.commerce.price() + ',';
-    output += photoUrl() + ',';
+    output += faker.lorem.words(1) + '|'; //dish name
+    output += faker.lorem.sentence() + '|'; //desc
+    output += '$' + faker.commerce.price() + '|'; //price
+    output += 'http://lorempixel.com/640/480/food' + '|';
     return output;
 };
 
@@ -207,40 +187,128 @@ const generateDish = (restID) => {
     let timeID = timeId();
     let sectionID = sectionId(timeID);
     if (sqlGenerator) {
-        data += timeID + ',' + sectionID;
+        data += timeID + '|' + sectionID;
     } else {
-        data += sectionMapping[timeID - 1] + ',' + menuSectionChoice[timeID][sectionID - 1];
+        data += sectionMapping[timeID - 1] + '|' + menuSectionChoice[timeID][sectionID - 1];
     }
     return data;
 };
 
-let menuCount = 0;
-const generateMenu = (noOfChunk) => {
-    let filename = sqlGenerator ? './menuSQL.csv' : './menuNonSQL.csv';
-    let startRestID = startID;
-    let accumulator = Math.floor( ( endID - startID ) / noOfChunk );
+const generateMenus = (startRestID, range) => {
     let chunkOfData = "";
-    while (startRestID <= endID) {
-        let endRestID = Math.min( startRestID + accumulator, endID );
-        chunkOfData = ""; 
-        for (let restID = startRestID; restID <= endRestID; restID++) {
-            let menuData = "";
-            let noOfDishes = generateRandomInt(16) + 20; //from 20 - 35
-            menuCount += noOfDishes;
-            while (noOfDishes > 0) {
-                let dish = generateDish(restID);
-                menuData += dish + '\n';
-                noOfDishes--;
-            }
-            chunkOfData += menuData;
-        }
-        appendFile(filename, chunkOfData);
-        startRestID = startRestID + accumulator + 1;
+    for (let i = startRestID; i < startRestID + range; i++) {
+        let noOfDishes = generateRandomInt(16) + 20;
+        while (noOfDishes > 0) {
+            chunkOfData += generateDish(i) + '\n';
+            noOfDishes--;
+        } 
     }
+    return chunkOfData;
 };
 
-//generateMenu(20); //generate menus by separating into 20 chunks
+let menuCount = 0;
+const generateMenu = () => {
+    let filename = sqlGenerator ? './menuSQL.csv' : './menuNonSQL.csv';
+    let noOfRest = 500; //500000
+    let start = startID;
+    let prevFinished = true;
+    let counts = 100000 / noOfRest; //10000000
+    let loop = 0;
+    console.time('menu data Write to File');
+
+    while (loop < counts) {
+        let chunkOfData = "";
+        if (prevFinished) {
+            prevFinished = false;
+            for (let restID = start; restID < start + noOfRest; restID++ ) {
+                let noOfDishes = generateRandomInt(16) + 20; //from 20 - 35
+                menuCount += noOfDishes;
+                while (noOfDishes > 0) {
+                    chunkOfData += generateDish(restID) + '\n';
+                    noOfDishes--;
+                } 
+            }
+            prevFinished = appendFile(
+               './menu.csv',
+               chunkOfData
+            );
+            loop++;
+            console.log(prevFinished);
+        }
+        start += noOfRest;
+    }
+    console.log(menuCount);
+    console.timeEnd('menu data Write to File');
+};
+
+let filename = sqlGenerator ? './menuSQL.csv' : './menuNonSQL.csv';
+let fileToWrite = fs.createWriteStream(path.resolve('./dummydata', filename));
+
+function generateMenuData(writer) {
+    let gap = 1000;
+    let i = 1; 
+    let end = 10000000; //10000000
+    console.time('menu data Write to File');
+    write();
+    console.timeEnd('menu data Write to File');
+    function write() {
+      let ok = true;
+      do {
+        if (i === end) {
+          // last time!
+          writer.write(generateMenus(i, gap));
+        } else {
+          // see if we should continue, or wait
+          // don't pass the callback, because we're not done yet.
+          ok = writer.write(generateMenus(i, gap));
+        }
+        i += gap;
+      } while (i < end && ok);
+      if (i < end) {
+        // had to stop early!
+        // write some more once it drains
+        writer.once('drain', write);
+      }
+    }
+    
+}
+
+//generateMenuData(fileToWrite);
+
+//generateMenu(); //generate menus by separating into 20 chunks
 
 //generate menu_dietary table ------------------------------>
 //mapping menus with dietary
+
+const generateMenuDietary = () => {
+    let noOfMenus = 10000; //1000000
+    let countOfMenus = 20000000; //total menu items estimation //20000000
+    let count = countOfMenus / noOfMenus;
+    let start = startID;
+    let prevFinished = true;
+    console.time('MENUDIETARY data Write to File');
+    for (let i = 0; i < count; i++) {
+        let chunkOfData = [];
+        if (prevFinished) {
+            prevFinished = false;
+            for (let j = start; j < start + noOfMenus; j++ ) {
+                let countOfDietary = generateRandomInt(3); //0 - 2
+                while (countOfDietary > 0) {
+                    let randomIndex = generateRandomInt(4) + 1; // 1 - 4
+                    let current = `${j},${randomIndex}\n`;
+                    chunkOfData.push(current);
+                    countOfDietary--;
+                }
+            }
+           prevFinished = appendFile(
+               './menuDiatery.csv',
+               chunkOfData.join("")
+           );
+        }
+        start = start + noOfMenus;
+    }
+    console.timeEnd('MENUDIETARY data Write to File');
+};
+
+//generateMenuDietary();
 

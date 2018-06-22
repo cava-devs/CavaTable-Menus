@@ -19,7 +19,7 @@ class Menu extends React.Component {
     this.subMenusList = [];
     this.getMenuObj();
     this.handleScroll();
-    console.log(filterTitle);
+    // console.log(filterTitle);
 
     this.handleMenuBtnClick = this.handleMenuBtnClick.bind(this);
     this.handleFilterBtnClick = this.handleFilterBtnClick.bind(this);
@@ -31,6 +31,7 @@ class Menu extends React.Component {
       .then(response => {
         this.findSubMenusList(response.data[0]);
         this.setState({
+          //menu stores everything from database
           menu: response.data[0],
           selectedSubMenu: this.subMenusList[0],
         });
@@ -43,6 +44,8 @@ class Menu extends React.Component {
     const properties = Object.keys(menuObj);
     properties.forEach(prop => {
       if (Array.isArray(menuObj[prop])) {
+        //push raw datas in the format of array
+        //breakfast, lunch, dinner
         subMenusList.push(prop);
       }
     });
@@ -110,6 +113,7 @@ class Menu extends React.Component {
         <div className={`card-body ${styles.menuBody}`}>
           <h3 className={styles['menu-title']}>Menu</h3>
           <div className={styles.menuBtnContainer}>
+            {/* mapping breakfast, lunch and dinner buttons */}
             {this.subMenusList.map((subMenu, i) => {
               return <MenuButton name={subMenu} selectedSubMenu={this.state.selectedSubMenu} key={i} 
                       handleClick={this.handleMenuBtnClick} />;
