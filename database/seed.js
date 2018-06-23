@@ -349,11 +349,11 @@ const generateMenuDataForCassandra = (restID) => {
             'price': '$' + faker.commerce.price(),
             'photo_url': 'http://lorempixel.com/640/480/food',
             'time_type': timeType,
-            'sectionType': sectionType,
-            'Vegetarian': Math.round(generateRandomInt(1)) ? 'true': 'false',
-            'NonVegetarian': Math.round(generateRandomInt(1)) ? 'true': 'false',
-            'Vegan': Math.round(generateRandomInt(1)) ? 'true': 'false',
-            'GlutenFree': Math.round(generateRandomInt(1)) ? 'true': 'false'
+            'section_type': sectionType,
+            'vegetarian': Math.random() >= 0.5,
+            'nonvegetarian': Math.random() >= 0.5,
+            'vegan': Math.random() >= 0.5,
+            'glutenfree': Math.random() >= 0.5
         };
         menutable.menu_list.push(menu);
         noOfDishes--;
