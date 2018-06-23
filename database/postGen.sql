@@ -1,12 +1,11 @@
 -- USE DATABASE
 \connect abletable
 
--- \copy dietary(dietary_type) From './database/dummydata/dietary.csv' CSV
 -- \copy meal_time(meal_time) From './database/dummydata/mealTime.csv' CSV
 -- \copy dietary(dietary_type) From './database/dummydata/dietary.csv' CSV
 -- \copy menu_section(section_name, time_id) From './database/dummydata/menuSection.csv' DELIMITER ',' CSV
 -- \copy restaurant(rest_name) FROM './database/dummydata/restaurant.csv' CSV
-\copy menu_dietary(menu_id, dietary_id) FROM './database/dummydata/menuDiatery.csv' DELIMITER ',' CSV
+-- \copy menu_dietary(menu_id, dietary_id) FROM './database/dummydata/menuDiatery.csv' DELIMITER ',' CSV
 
 
 -- \copy menu(rest_id, dish_name, dish_desc, price, photo_url, time_id, section_id) From './database/dummydata/menuSQL1.csv' DELIMITER '|' CSV

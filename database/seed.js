@@ -318,3 +318,49 @@ const generateMenuDietary = () => {
 
 //generateMenuDietary();
 
+
+//generate menu for each restaurant
+let menuSectionChoiceForCassandra = {
+    Breakfast: ['The Classics', 'Eggs', 'Juices', 'Coffee'],
+    Lunch: ['Salads', 'Sandwitches', 'Burgers','Featured Items', 'Juices'],
+    Dinner: ['Starters', 'Mains', 'Dessert', 'Cocktails']
+};
+
+
+const generateMenuDataForCassandra = (restID) => {
+    let menutable = {
+        'rest_id': restID,
+        'rest_name': faker.lorem.words(1),
+        'menu_list': []
+    };
+    let noOfDishes = generateRandomInt(16) + 20;
+    let duplicate = noOfDishes;
+    while (noOfDishes > 0) {
+        let timeType = 
+            noOfDishes < (duplicate / 3) ? 
+                'Breakfast' : noOfDishes > (duplicate / 3 * 2) ? 
+                'Lunch' : 'Dinner';
+        let sectionChoices = menuSectionChoiceForCassandra[timeType];
+        let randomIndex = generateRandomInt(sectionChoices.length);
+        let sectionType = sectionChoices[randomIndex];
+        let menu = {
+            'dish_name': faker.lorem.words(1),
+            'dish_desc': faker.lorem.sentence(),
+            'price': '$' + faker.commerce.price(),
+            'photo_url': 'http://lorempixel.com/640/480/food',
+            'time_type': timeType,
+            'sectionType': sectionType,
+            'Vegetarian': Math.round(generateRandomInt(1)) ? 'true': 'false',
+            'NonVegetarian': Math.round(generateRandomInt(1)) ? 'true': 'false',
+            'Vegan': Math.round(generateRandomInt(1)) ? 'true': 'false',
+            'GlutenFree': Math.round(generateRandomInt(1)) ? 'true': 'false'
+        };
+        menutable.menu_list.push(menu);
+        noOfDishes--;
+    }
+    return menutable;
+};
+
+module.exports = {
+    generateMenuDataForCassandra : generateMenuDataForCassandra
+};

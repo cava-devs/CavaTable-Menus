@@ -10,12 +10,13 @@
   "scripts": {
     "start": "nodemon server/index.js",
     "build": "webpack -d --watch",
-    "seed" : "psql -U fiona abletable < database/postGen.sql",
+    "seed": "psql -U fiona abletable < database/postGen.sql",
     "test": "jest"
   },
   "dependencies": {
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
+    "cassandra-driver": "^3.5.0",
     "css-loader": "^0.28.11",
     "express": "^4.16.3",
     "faker": "^4.1.0",
