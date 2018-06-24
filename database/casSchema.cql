@@ -1,4 +1,4 @@
-CREATE KEYSPACE abletable WITH REPLICATION = { 'class' : 'NetworkTopologyStrategy', 'datacenter1' : 1 } AND DURABLE_WRITES = false;
+CREATE KEYSPACE IF NOT EXISTS abletable WITH REPLICATION = { 'class' : 'NetworkTopologyStrategy', 'datacenter1' : 1 } AND DURABLE_WRITES = false;
 
 USE abletable;
 -- USE test;
@@ -20,4 +20,9 @@ CREATE TABLE IF NOT EXISTS menus (
   rest_id INT PRIMARY KEY,
   rest_name text,
   menu_list list<frozen <menutype>>,
+);
+
+CREATE TABLE IF NOT EXISTS res (
+  rest_id INT PRIMARY KEY,
+  rest_name text,
 );

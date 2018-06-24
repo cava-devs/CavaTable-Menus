@@ -333,7 +333,7 @@ const generateMenuDataForCassandra = (restID) => {
         'rest_name': faker.lorem.words(1),
         'menu_list': []
     };
-    let noOfDishes = generateRandomInt(16) + 20;
+    let noOfDishes = generateRandomInt(11) + 10; //20 -35 for postgresql // 10 - 20 for cassandra
     let duplicate = noOfDishes;
     while (noOfDishes > 0) {
         let timeType = 
