@@ -1,7 +1,7 @@
 CREATE KEYSPACE IF NOT EXISTS abletable WITH REPLICATION = { 'class' : 'NetworkTopologyStrategy', 'datacenter1' : 1 } AND DURABLE_WRITES = false;
 
-USE abletable;
--- USE test;
+-- USE abletable;
+USE test;
 
 CREATE TYPE IF NOT EXISTS menutype (
   dish_name text,

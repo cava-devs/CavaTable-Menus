@@ -1,0 +1,55 @@
+PostGreSQL
+
+//post
+INSERT INTO MENU (rest_id, dish_name, dish_desc, price, photo_url, time_id, section_id) VAlUES (1, 'fish', 'fried cod', '$40', 'http://lorempixel.com/640/480/food', 1, 3);
+
+INSERT INTO MENU (rest_id, dish_name, dish_desc, price, photo_url, time_id, section_id) VAlUES (10000001, 'bbb1', 'breakfast1', '$40', 'http://lorempixel.com/640/480/food', 1, 2);
+
+INSERT INTO menu_dietary(menu_id, dietary_id)
+SELECT 3, 3
+WHERE
+    NOT EXISTS (
+        SELECT * FROM menu_dietary WHERE menu_id = 3 and dietary_id = 3
+    );
+
+
+//get
+-- get menus for one single restaurant
+SELECT * FROM menu where rest_id = 3 and menu_id between 40 and 120;
+
+-- get menu and restaurant data together
+SELECT * FROM menu inner join restaurant on menu.rest_id = restaurant.rest_id and restaurant.rest_id = 3;
+
+-- get menu and restaurant data of breakfast
+SELECT * FROM menu inner join restaurant on menu.rest_id = restaurant.rest_id where restaurant.rest_id = 3 and menu.time_id = 1;
+
+-- get menu and restaurant data of breakfast
+SELECT * FROM menu inner join restaurant on menu.rest_id = restaurant.rest_id where restaurant.rest_id = 3 and menu.time_id = 1 and section_id = 2;
+
+-- get menu and dietary data of breakfast;
+SELECT * FROM menu inner join menu_dietary on menu.menu_id = menu_dietary.menu_id where menu.rest_id = 3 and menu.time_id = 1 inner join dietary on menu_dietary where menu_dietary.dietary_id = dietary.dietary_id where dietary_id = 1;
+ 
+
+//update
+UPDATE menu SET price = '$22.00' where menu_id = 100;
+
+
+//delete
+DELETE FROM menu where menu_id = 275005626;
+DELETE FROM menu where rest_id = 10000001; //275005638
+
+
+Cassandra
+//get
+SELECT * FROM menus where rest_id = 1;
+
+//post
+INSERT INTO menus (rest_id, rest_name, menu_list)
+VAlUES (
+    10000001,
+    'newrest1',
+)
+
+
+
+//update 

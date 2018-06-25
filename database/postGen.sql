@@ -1,5 +1,5 @@
 -- USE DATABASE
-\connect abletable
+-- \connect abletable
 
 -- \copy meal_time(meal_time) From './database/dummydata/mealTime.csv' CSV
 -- \copy dietary(dietary_type) From './database/dummydata/dietary.csv' CSV
