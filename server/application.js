@@ -19,4 +19,34 @@ app.get('/menus/restaurant/:restaurantId/menu', (req, res) => {
   });
 });
 
+app.post('/menus/restaurant/:restaurantId/menu', (req, res) => {
+  db.post(req.params.restaurantId, (err, result) => {
+    if (err) {
+      res.status(500);
+    } else {
+      res.status(201);
+    }
+  });
+});
+
+app.put('/menus/restaurant/:restaurantId/menu', (req, res) => {
+  db.put(req.params.restaurantId, (err, result) => {
+    if (err) {
+      res.status(500);
+    } else {
+      res.status(202);
+    }
+  });
+});
+
+app.delete('menu/restaurant/:restaurantId/menu', (req, res) => {
+  db.delete(req.params.restaurantId, (err, result) => {
+    if (err) {
+      res.status(404);
+    } else {
+      res.status(204);
+    }
+  });
+});
+
 module.exports = app;
