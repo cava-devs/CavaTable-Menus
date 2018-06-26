@@ -34,7 +34,7 @@ CREATE TABLE menu_section (
 DROP TABLE IF EXISTS restaurant CASCADE;
 CREATE TABLE restaurant (
     rest_id SERIAL PRIMARY KEY,
-    rest_name varchar(40menu) NOT NULL
+    rest_name varchar(40) NOT NULL
 );
 
 -- create menu table
