@@ -1,0 +1,39 @@
+config:
+  target: "http://localhost:3005"
+  phases:
+    - duration: 60
+      arrivalRate: 10
+      rampTo: 50
+      name: "Warm up the application"
+    - duration: 60
+      arrivalRate: 20
+      rampTo: 100
+      name: "warm up again"
+    - duration: 60
+      arrivalRate: 100
+      name: "keep stable on big load"
+    - duration: 60
+      arrivalRate: 100
+      rampTo: 20
+      name: "calming down" 
+    - duration: 60
+      arrivalRate: 50
+      rampTo: 1000
+      name: "Sustained max load"
+    - duration: 60
+      arrivalRate: 1000
+      name: "Sustained max load"
+    - duration: 60
+      arrivalRate: 1000
+      rampTo: 500
+      name: "Slow down"
+    - duration: 60
+      arrivalRate: 50
+      name: "Calm down"
+  defaults:
+    headers:
+      x-my-service-auth: '987401838271002188298567'
+scenarios:
+- flow:
+  - get:
+      url: "/menus/restaurant/1227995/menu2/1"

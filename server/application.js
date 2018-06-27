@@ -47,7 +47,7 @@ if (cluster.isMaster) {
   });
 
   //get whole menu for a certain rest//only get the data based on choice of breakfast/lunch/dinner
-  app.get('/menus/restaurant/:restaurantId/menu/:timeId', (req,res) => {
+  app.get('/menus/restaurant/:restaurantId/menu2/:timeId', (req,res) => {
     helper.getRestMenu(req.params.restaurantId, req.params.timeId, (err, results) => {
       if (err) {
         res.status(400).send(err);
