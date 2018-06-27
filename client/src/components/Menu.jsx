@@ -16,6 +16,7 @@ class Menu extends React.Component {
       selectedFilters: {},
       displayAll: false,
     };
+    this.time = 1;
     this.subMenusList = [];
     this.getMenuObj();
     this.handleScroll();
@@ -30,6 +31,7 @@ class Menu extends React.Component {
     axios.get(`/menus/restaurant/${this.props.match.params.restaurantId}/menu`)
       .then(response => {
         this.findSubMenusList(response.data[0]);
+        console.log('menu',response.data[0]);
         this.setState({
           //menu stores everything from database
           menu: response.data[0],
@@ -49,6 +51,7 @@ class Menu extends React.Component {
         subMenusList.push(prop);
       }
     });
+    console.log('subMenuList',subMenusList);
     this.subMenusList = subMenusList;
   }
 

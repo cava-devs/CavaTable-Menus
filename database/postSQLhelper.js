@@ -12,17 +12,19 @@ const client = new Client({
 // client.connect(connectURL);
 
 
-const getRestMenu = (restID, callback) => {
+const getRestMenu = (restID, timeID, callback) => {
 
     const query = {
-        text: 'SELECT m.menu_id, m.rest_id, m.dish_name, m.dish_desc, m.price, m.photo_url, t.meal_time, s.section_name, d.dietary_type from menu m inner join meal_time t on m.time_id = t.time_id inner join menu_section s on m.section_id = s.section_id inner join menu_dietary j on m.menu_id = j.menu_id inner join dietary d on j.dietary_id = d.dietary_id where rest_id = $1 ',
-        values: [restID],
+        // text: 'SELECT m.menu_id, m.rest_id, m.dish_name, m.dish_desc, m.price, m.photo_url, t.meal_time, s.section_name, d.dietary_type from menu m inner join meal_time t on m.time_id = t.time_id inner join menu_section s on m.section_id = s.section_id inner join menu_dietary j on m.menu_id = j.menu_id inner join dietary d on j.dietary_id = d.dietary_id where rest_id = $1',
+        text: 'SELECT m.menu_id, m.dish_name, m.dish_desc, m.price, m.photo_url, t.meal_time, s.section_name, d.dietary_type from menu m inner join meal_time t on m.time_id = t.time_id and m.time_id = $2 and m.rest_id = $1 inner join menu_section s on m.section_id = s.section_id left join menu_dietary j on m.menu_id = j.menu_id left join dietary d on j.dietary_id = d.dietary_id;',
+        values: [Number(restID), Number(timeID)],
     };
 
     client.query(query)
         .then(res => {
-            let data = formatMenuData(res.rows);
-            callback(null, data);
+            // let data = formatMenuData(res.rows);
+            // callback(null, data);
+            callback(null, res.rows);
         })
         .catch(e => {
             callback(e, null);
@@ -70,6 +72,43 @@ const insertNewDish = ({
         });
 };
 
+const updateDish = (menuID, data, callback) => {
+    let keys = Object.keys(data);
+    let currentCount = 2;
+    let updateSection = [];
+    let values = [menuID];
+    for (let k = 0; k < keys.length; k++) {
+        updateSection.push(`${keys[k]} = $${currentCount}`);
+        values.push(data[keys[k]]);
+        currentCount++;
+    }
+    
+    const query = {
+        text: `UPDATE menu SET ${updateSection.join(',')} where menu_id = $1`,
+        values: values,
+    };
+    client.query(query)
+        .then(res => {
+            callback(null, res.rows);
+        })
+        .catch(e => {
+            callback(e, null);
+        });
+};
+
+const deleteDish = (menuID, callback) => {
+    const query = {
+        text: 'DELETE FROM menu where menu_id = $1',
+        values: [menuID],
+    };
+    client.query(query)
+        .then(res => {
+            callback(null, res.rows);
+        })
+        .catch(e => {
+            callback(e, null);
+        });
+};
 
 //pure helper for helper functions
 const formatMenuData = (arrayOfData) => {
@@ -99,10 +138,13 @@ const formatMenuData = (arrayOfData) => {
         output.push(value);
     }
     return output;
+    // return dishData;
 };
 
 module.exports = {
     getRestMenu,
     insertNewDish,
-    mappingTimeANDSection
+    mappingTimeANDSection,
+    updateDish,
+    deleteDish
 };
