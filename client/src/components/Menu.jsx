@@ -17,8 +17,9 @@ class Menu extends React.Component {
       displayAll: false,
     };
     this.time = 1;
-    this.subMenusList = [];
+    this.subMenusList = ['breakfast', 'lunch', 'dinner'];
     this.getMenuObj();
+    this.getMenuObj2();
     this.handleScroll();
     // console.log(filterTitle);
 
@@ -30,7 +31,7 @@ class Menu extends React.Component {
   getMenuObj() {
     axios.get(`/menus/restaurant/${this.props.match.params.restaurantId}/menu`)
       .then(response => {
-        this.findSubMenusList(response.data[0]);
+        // this.findSubMenusList(response.data[0]);
         console.log('menu',response.data[0]);
         this.setState({
           //menu stores everything from database
@@ -41,19 +42,33 @@ class Menu extends React.Component {
       .catch(err => console.error(err));
   }
 
-  findSubMenusList(menuObj) {
-    const subMenusList = [];
-    const properties = Object.keys(menuObj);
-    properties.forEach(prop => {
-      if (Array.isArray(menuObj[prop])) {
-        //push raw datas in the format of array
-        //breakfast, lunch, dinner
-        subMenusList.push(prop);
-      }
-    });
-    console.log('subMenuList',subMenusList);
-    this.subMenusList = subMenusList;
+  getMenuObj2() {
+    axios.get(`/menus/restaurant/${this.props.match.params.restaurantId}/menu2/1`)
+      .then(response => {
+        // this.findSubMenusList(response.data[0]);
+        console.log('menu2',response.data);
+        // this.setState({
+        //   //menu stores everything from database
+        //   menu: response.data[0],
+        //   selectedSubMenu: this.subMenusList[0],
+        // });
+      })
+      .catch(err => console.error(err));
   }
+
+  // findSubMenusList(menuObj) {
+  //   const subMenusList = [];
+  //   const properties = Object.keys(menuObj);
+  //   properties.forEach(prop => {
+  //     if (Array.isArray(menuObj[prop])) {
+  //       //push raw datas in the format of array
+  //       //breakfast, lunch, dinner
+  //       subMenusList.push(prop);
+  //     }
+  //   });
+  //   console.log('subMenuList',subMenusList);
+  //   this.subMenusList = subMenusList;
+  // }
 
   handleMenuBtnClick(event) {
     let innerHTML = event.target.innerHTML.toLowerCase().replace(' ', '_');

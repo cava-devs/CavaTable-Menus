@@ -19,7 +19,7 @@ config:
     - duration: 60
       arrivalRate: 50
       rampTo: 1000
-      name: "Sustained max load"
+      name: "jump to max load"
     - duration: 60
       arrivalRate: 1000
       name: "Sustained max load"
@@ -36,4 +36,5 @@ config:
 scenarios:
 - flow:
   - get:
-      url: "/menus/restaurant/1227995/menu2/1"
+      url: "/menus/restaurant/1/menu2/1"
+      # url: "/menus/restaurant/{{$randomNumber(1, 10000000)}}/menu2/1"
