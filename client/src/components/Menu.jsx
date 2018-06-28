@@ -47,6 +47,8 @@ class Menu extends React.Component {
       .then(response => {
         // this.findSubMenusList(response.data[0]);
         console.log('menu2',response.data);
+        let formatData = this.formatMenuData(response.data);
+        console.log('formatted data',formatData);
         // this.setState({
         //   //menu stores everything from database
         //   menu: response.data[0],
@@ -54,6 +56,35 @@ class Menu extends React.Component {
         // });
       })
       .catch(err => console.error(err));
+  }
+
+  formatMenuData(arrayOfData) {
+    let dishData = {};
+    for (let i = 0; i < arrayOfData.length; i++) {
+        let dish= arrayOfData[i];
+        if (dishData[dish.menu_id]) {
+            dishData[dish.menu_id].dietary_type[dish.dietary_type] = true;
+        } else {
+            dishData[dish.menu_id] = {
+                dish_name: dish.dish_name,
+                dish_desc: dish.dish_desc,
+                price: dish.price,
+                photo_url: dish.photo_url,
+                meal_time: dish.meal_time,
+                section_name: dish.section_name,
+                dietary_type: {}
+            };
+            dishData[dish.menu_id].dietary_type[dish.dietary_type] = true;
+        }
+    }
+    let keys = Object.keys(dishData);
+    let output = [];
+    for (let k = 0; k < keys.length; k++) {
+        let value = dishData[keys[k]];
+        value['menu_id'] = keys[k];
+        output.push(value);
+    }
+    return output;
   }
 
   // findSubMenusList(menuObj) {
