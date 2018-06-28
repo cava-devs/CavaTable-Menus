@@ -11,6 +11,12 @@ config:
     - duration: 120
       arrivalRate: 10
       name: "keep at the max load"
+    - duration: 120
+      arrivalRate: 10
+      name: "keep at the max load"
+    - duration: 120
+      arrivalRate: 10
+      name: "keep at the max load"
     - duration: 60
       arrivalRate: 10
       rampTo: 1
