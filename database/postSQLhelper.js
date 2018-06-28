@@ -24,7 +24,7 @@ const getRestMenu = (restID, timeID, callback) => {
         .then(res => {
             // let data = formatMenuData(res.rows);
             // callback(null, data);
-            callback(null, res.rows);
+            callback(null, JSON.stringify(res.rows));
         })
         .catch(e => {
             callback(e, null);

@@ -1,9 +1,16 @@
 require('newrelic');
 const express = require('express');
 const cluster = require('cluster');
+const redis = require('redis');
 const path = require('path');
 const db = require('../database/index');
 const sqlhelper = require('../database/postSQLhelper');
+
+const client = redis.createClient(); //creates a new client
+
+client.on('connect', function() {
+    console.log('connected');
+});
 
 const app = express();
 
@@ -47,14 +54,25 @@ if (cluster.isMaster) {
   });
 
   //get whole menu for a certain rest//only get the data based on choice of breakfast/lunch/dinner
-  app.get('/menus/restaurant/:restaurantId/menu/:timeId', (req,res) => {
-    helper.getRestMenu(req.params.restaurantId, req.params.timeId, (err, results) => {
-      if (err) {
-        res.status(400).send(err);
+  app.get('/menus/restaurant/:restaurantId/menu2/:timeId', (req,res, next) => {
+    let restaurantId = req.params.restaurantId;
+    let timeId = req.params.timeId;
+    let key = `${restaurantId}&${timeId}`; 
+    client.get(key, function (err, result) {
+      if (result) {
+        res.status(200).send(result);
       } else {
-        res.status(200).send(results);
+        helper.getRestMenu(restaurantId, timeId, (error, results) => {
+          if (error) {
+            res.status(400).send(error);
+          } else {
+            res.status(200).send(results);
+            client.setex(key, 60 * 20, results);
+          }
+        });
       }
     });
+    
   });
 
   //insert a new dish item for a restaurant
