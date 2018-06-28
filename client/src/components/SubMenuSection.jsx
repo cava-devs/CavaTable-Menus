@@ -32,6 +32,7 @@ const SubMenuSection = (props) => {
     return filteredEntries;
   };
 
+  //filter entries on selected filters - vegan or something
   let filteredEntries = filterEntries(props.sectionObj.entries, props.filterObj);
 
   return (

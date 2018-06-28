@@ -1,7 +1,7 @@
 const restaurants = [
   {
     rest_id: 1001,
-    rest_name: 'Cento Osteria',
+    // rest_name: 'Cento Osteria',
     breakfast: [
       {
         menu_section: 'The Classics',

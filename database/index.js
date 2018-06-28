@@ -42,10 +42,14 @@ const menuSchema = new mongoose.Schema({
 const MenuModel = mongoose.model('menus', menuSchema);
 
 const retrieve = (restaurantId, handleResponse) => {
+  console.log(restaurantId);
   MenuModel.find({ rest_id: parseInt(restaurantId) })
     .then(results => handleResponse(null, results))
     .catch(err => handleResponse(err, null));
 };
 
-module.exports.retrieve = retrieve;
+module.exports = {
+  retrieve: retrieve,
+  MenuModel: MenuModel
+};
 
