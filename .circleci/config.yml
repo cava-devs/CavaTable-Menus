@@ -3,7 +3,7 @@ jobs:
   build:
     docker:
       - image: circleci/node:8.11.1
-      - image: circleci/mongo:3.6.5
+      # - image: circleci/mongo:3.6.5
     # environment:
     #   - MONGO_URL: "mongodb://localhost:27017/cavatable_menus"
     steps:
