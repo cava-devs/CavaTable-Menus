@@ -4,8 +4,9 @@ jobs:
     docker:
       - image: circleci/node:8.11.1
       - image: circleci/postgres:9.5.13-alpine-ram
+      - image: circleci/mongo:3.6.5
     environment:
-      # - DATABASE_URL: postgres://username:pgpassword@db:5432/mydatabase
+      - MONGO_URL: "mongodb://localhost:27017/cavatable_menus"
       - NODE_ENV: 'test'
       - POSTGRES_DB: 'abletable'
       - POSTGRES_HOST: 'localhost'
