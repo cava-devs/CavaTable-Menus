@@ -32,11 +32,16 @@ const getRestMenu = (restID, timeID, callback) => {
 };
 
 const mappingTimeANDSection = (name, callback) => {
-    console.log(name);
     const query= {
         text: 'SELECT section_id, time_id FROM menu_section where section_name = $1',
         values: [name],
     };
+    //INSERT INTO menu_dietary(menu_id, dietary_id)
+    // SELECT 3, 3
+    // WHERE
+    //     NOT EXISTS (
+    //         SELECT * FROM menu_dietary WHERE menu_id = 3 and dietary_id = 3
+    //     );
 
     client.query(query)
         .then(res => {
@@ -58,7 +63,7 @@ const insertNewDish = ({
     sectionid 
 }, callback) => {
         const query = {
-            text: 'INSERT INTO MENU (rest_id, dish_name, dish_desc, price, photo_url, time_id, section_id) VAlUES ($1, $2, $3, $4, $5, $6, $7)',
+            text: 'INSERT INTO MENU (rest_id, dish_name, dish_desc, price, photo_url, time_id, section_id) VAlUES ($1, $2, $3, $4, $5, $6, $7) RETURNING menu_id',
             values: [restid, dishname, dishdesc, price, photourl, timeid, sectionid],
         };
 
@@ -141,10 +146,21 @@ const formatMenuData = (arrayOfData) => {
     // return dishData;
 };
 
+const getMaxMenuID = () => {
+    client.query('SELECT menu_id from menu order by menu_id desc limit 1')
+        .then((res) => {
+            return res.rows[0].menu_id;
+        })
+        .catch((err) => {
+            throw err;
+        });
+};
+
 module.exports = {
     getRestMenu,
     insertNewDish,
     mappingTimeANDSection,
     updateDish,
-    deleteDish
+    deleteDish,
+    getMaxMenuID
 };
