@@ -8,7 +8,7 @@ var helper = require('../database/postSQLhelper');
 
 chai.use(chaiHttp);
 
-process.env.NODE_ENV = 'test';
+// process.env.NODE_ENV = 'test';
 
 // let maxID;
 
@@ -68,7 +68,7 @@ describe('/PUT menu', () => {
 });
 
 describe('/DELETE menu', () => {
-    it('it should UPDATE the breakfast menu for the given menuid', (done) => {
+    it('it should DELETE the breakfast menu for the given menuid', (done) => {
       chai.request('http://localhost:3005')
           .delete('/menus/restaurant/275005648/menu2')
           .end((err, res) => {
