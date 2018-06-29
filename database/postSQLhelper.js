@@ -3,10 +3,10 @@ const { Client } = require('pg');
 // const client = new Client();
 
 const client = new Client({
-    user: 'fiona',
-    host: 'localhost',
-    database: 'abletable',
-    port: 5432,
+    user: process.env.POSTGRES_USER || 'fiona',
+    host: process.env.POSTGRES_HOST || 'localhost',
+    database: process.env.POSTGRES_DB || 'abletable',
+    port: process.env.POSTGRES_PORT ||5432,
   });
   client.connect();
 // client.connect(connectURL);
@@ -146,13 +146,13 @@ const formatMenuData = (arrayOfData) => {
     // return dishData;
 };
 
-const getMaxMenuID = () => {
+const getMaxMenuID = (callback) => {
     client.query('SELECT menu_id from menu order by menu_id desc limit 1')
         .then((res) => {
-            return res.rows[0].menu_id;
+            callback(null, res.rows[0].menu_id);
         })
         .catch((err) => {
-            throw err;
+            callback(err, null);
         });
 };
 
