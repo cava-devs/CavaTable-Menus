@@ -5,6 +5,7 @@ const redis = require('redis');
 const path = require('path');
 const db = require('../database/index');
 const sqlhelper = require('../database/postSQLhelper');
+const morgan = require('morgan');
 
 const client = redis.createClient(); //creates a new client
 
@@ -13,20 +14,21 @@ client.on('connect', function() {
 });
 
 const app = express();
+app.use(morgan('dev'));
 
 // Code to run if we're in the master process
-if (cluster.isMaster) {
+// if (cluster.isMaster) {
 
-  // Count the machine's CPUs
-  var cpuCount = require('os').cpus().length;//4
+//   // Count the machine's CPUs
+//   var cpuCount = require('os').cpus().length;//4
 
-  // Create a worker for each CPU
-  for (var i = 0; i < cpuCount; i += 1) {
-      cluster.fork();
-  }
+//   // Create a worker for each CPU
+//   for (var i = 0; i < cpuCount; i += 1) {
+//       cluster.fork();
+//   }
 
-// Code to run if we're in a worker process
-} else {
+// // Code to run if we're in a worker process
+// } else {
 
   const helper = sqlhelper; // set SQL or NONSQL
 
@@ -58,21 +60,30 @@ if (cluster.isMaster) {
     let restaurantId = req.params.restaurantId;
     let timeId = req.params.timeId;
     let key = `${restaurantId}&${timeId}`; 
-    client.get(key, function (err, result) {
-      if (result) {
-        res.status(200).send(result);
-      } else {
-        helper.getRestMenu(restaurantId, timeId, (error, results) => {
-          if (error) {
-            res.status(400).send(error);
-          } else {
-            res.status(200).send(results);
-            client.setex(key, 60 * 20, results);
-          }
-        });
-      }
-    });
-    
+    if (process.env.NODE_ENV === 'test') {
+      helper.getRestMenu(restaurantId, timeId, (error, results) => {
+        if (error) {
+          res.status(400).send(error);
+        } else {
+          res.status(200).send(results);
+        }
+      });
+    } else {
+      client.get(key, function (err, result) {
+        if (result) {
+          res.status(200).send(result);
+        } else {
+          helper.getRestMenu(restaurantId, timeId, (error, results) => {
+            if (error) {
+              res.status(400).send(error);
+            } else {
+              res.status(200).send(results);
+              client.setex(key, 60 * 20, results);
+            }
+          });
+        }
+      });
+    }
   });
 
   //insert a new dish item for a restaurant
@@ -117,12 +128,15 @@ if (cluster.isMaster) {
     });
   });
 
-  const port = process.env.PORT || 3005;
-  app.listen(port, () => console.log(`Menu module listening on port ${port}`));
+  // const port = process.env.PORT || 3005;
+  // app.listen(port, () => console.log(`Menu module listening on port ${port}`));
 
-}
+// }
+
 
 module.exports = app;
+
+
 
 //post request 
 // {
