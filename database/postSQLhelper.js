@@ -1,15 +1,18 @@
-const { Client } = require('pg');
+const { Client, Pool } = require('pg');
 // const connectURL = "postgres://fiona@localhost/database";
 // const client = new Client();
 
-const client = new Client({
+const pool = new Pool({
     user: process.env.POSTGRES_USER || 'fiona',
     host: process.env.POSTGRES_HOST || 'localhost',
     database: process.env.POSTGRES_DB || 'abletable',
     port: process.env.POSTGRES_PORT ||5432,
+    max: 20,
+    idleTimeoutMillis: 30000,
+    connectionTimeoutMillis: 2000,
   });
-  client.connect();
-// client.connect(connectURL);
+  pool.connect();
+// pool.connect(connectURL);
 
 
 const getRestMenu = (restID, timeID, callback) => {
@@ -20,7 +23,7 @@ const getRestMenu = (restID, timeID, callback) => {
         values: [Number(restID), Number(timeID)],
     };
 
-    client.query(query)
+    pool.query(query)
         .then(res => {
             // let data = formatMenuData(res.rows);
             // callback(null, data);
@@ -43,7 +46,7 @@ const mappingTimeANDSection = (name, callback) => {
     //         SELECT * FROM menu_dietary WHERE menu_id = 3 and dietary_id = 3
     //     );
 
-    client.query(query)
+    pool.query(query)
         .then(res => {
            callback(null, res.rows[0]);
            //{ section_id: 2, time_id: 1 }
@@ -67,7 +70,7 @@ const insertNewDish = ({
             values: [restid, dishname, dishdesc, price, photourl, timeid, sectionid],
         };
 
-        client.query(query)
+        pool.query(query)
         .then(res => {
             console.log(res.rows);
             callback(null, res.rows);
@@ -92,7 +95,7 @@ const updateDish = (menuID, data, callback) => {
         text: `UPDATE menu SET ${updateSection.join(',')} where menu_id = $1`,
         values: values,
     };
-    client.query(query)
+    pool.query(query)
         .then(res => {
             callback(null, res.rows);
         })
@@ -106,7 +109,7 @@ const deleteDish = (menuID, callback) => {
         text: 'DELETE FROM menu where menu_id = $1',
         values: [menuID],
     };
-    client.query(query)
+    pool.query(query)
         .then(res => {
             callback(null, res.rows);
         })
@@ -147,7 +150,7 @@ const formatMenuData = (arrayOfData) => {
 };
 
 const getMaxMenuID = (callback) => {
-    client.query('SELECT menu_id from menu order by menu_id desc limit 1')
+    pool.query('SELECT menu_id from menu order by menu_id desc limit 1')
         .then((res) => {
             callback(null, res.rows[0].menu_id);
         })

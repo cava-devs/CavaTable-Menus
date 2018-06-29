@@ -34,7 +34,7 @@ app.use(morgan('dev'));
 
   app.use(express.json());
 
-  app.use( express.static(path.join(__dirname, '../public/index.html')));
+  app.use(express.static(path.join(__dirname, '../public/index.html')));
 
   app.use('/restaurant/:restaurantId', 
     express.static(path.join(__dirname, '../public/index.html')));
@@ -43,20 +43,20 @@ app.use(morgan('dev'));
 
   //CRUD Requests
 
-  app.get('/menus/restaurant/:restaurantId/menu', (req, res) => {
-    db.retrieve(req.params.restaurantId, (err, results) => {
-      if (err && err.message.includes('Cast to number failed for value "NaN"')) {
-        res.status(400).json('Bad request');
-      } else if (err) {
-        res.status(500).json('Unable to retrieve menu data from database');
-      } else {
-        res.status(200).json(results);
-      }
-    });
-  });
+  // app.get('/menus/restaurant/:restaurantId/menu', (req, res) => {
+  //   db.retrieve(req.params.restaurantId, (err, results) => {
+  //     if (err && err.message.includes('Cast to number failed for value "NaN"')) {
+  //       res.status(400).json('Bad request');
+  //     } else if (err) {
+  //       res.status(500).json('Unable to retrieve menu data from database');
+  //     } else {
+  //       res.status(200).json(results);
+  //     }
+  //   });
+  // });
 
   //get whole menu for a certain rest//only get the data based on choice of breakfast/lunch/dinner
-  app.get('/menus/restaurant/:restaurantId/menu2/:timeId', (req,res, next) => {
+  app.get('/menus/restaurant/:restaurantId/menu/:timeId', (req,res, next) => {
     let restaurantId = req.params.restaurantId;
     let timeId = req.params.timeId;
     let key = `${restaurantId}&${timeId}`; 
@@ -87,7 +87,7 @@ app.use(morgan('dev'));
   });
 
   //insert a new dish item for a restaurant
-  app.post('/menus/restaurant/:restaurantId/menu2', (req, res) => {
+  app.post('/menus/restaurant/:restaurantId/menu', (req, res) => {
     //10000001, 'bbb1', 'breakfast1', '$40', 'http://lorempixel.com/640/480/food', 1, 2
     let data = req.body;
     helper.mappingTimeANDSection(data.sectionname, (err, result) => {
@@ -107,7 +107,7 @@ app.use(morgan('dev'));
     });
   });
 
-  app.put('/menus/restaurant/:menuID/menu2', (req, res) => {
+  app.put('/menus/restaurant/:menuID/menu', (req, res) => {
     let data = req.body;
     helper.updateDish(req.params.menuID, data, (err, result) => {
       if (err) {
@@ -118,7 +118,7 @@ app.use(morgan('dev'));
     });
   });
 
-  app.delete('/menus/restaurant/:menuID/menu2', (req, res) => {
+  app.delete('/menus/restaurant/:menuID/menu', (req, res) => {
     helper.deleteDish(req.params.menuID, (err, result) => {
       if (err) {
         res.status(400).send(err);

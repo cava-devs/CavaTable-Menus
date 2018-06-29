@@ -8,12 +8,12 @@ config:
       arrivalRate: 1
       rampTo: 10
       name: "jump to max load"
-    - duration: 840
+    - duration: 1200
       arrivalRate: 10
       name: "keep at the max load"
     - duration: 60
       arrivalRate: 10
-      rampTo: 1
+      rampTo: 5
       name: "calm down"
   defaults:
     headers:

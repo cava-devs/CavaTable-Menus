@@ -11,10 +11,6 @@ jobs:
           POSTGRES_PORT: 5432
       - image: circleci/mongo:3.6.5
     environment:
-      - POSTGRES_DB: 'abletable'
-      - POSTGRES_HOST: 'localhost'
-      - POSTGRES_USER: 'root'
-      - POSTGRES_PORT: 5432
       - MONGO_URL: "mongodb://localhost:27017/cavatable_menus"
       - NODE_ENV: 'test'
     steps:
