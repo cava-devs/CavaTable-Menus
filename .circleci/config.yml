@@ -20,6 +20,6 @@ jobs:
     steps:
       - checkout
       - run: npm install
-      - run: yum install postgres-client
+      - run: apt install postgres-client-9.5
       - run: psql -u root < database/postSQLSchema.sql
       - run: npm test
