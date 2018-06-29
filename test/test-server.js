@@ -23,24 +23,12 @@ chai.use(chaiHttp);
 //     });
 // });
 
-describe('/GET menu', () => {
-    it('it should GET the breakfast menu for the first restaurant', (done) => {
-        chai.request('http://localhost:3005')
-            .get('/menus/restaurant/1/menu2/1')
-            .end((err, res) => {
-                res.should.have.status(200);
-                res.text.should.be.a('string');
-            done();
-            });
-    });
-});
-
 describe('/POST menu', () => {
     it('it should POST a new menu for a specific restaurant', (done) => {
       chai.request('http://localhost:3005')
-          .post('/menus/restaurant/1000000/menu2')
+          .post('/menus/restaurant/10000000/menu2')
           .send({
-            "restid": 10000001,
+            "restid": 1,
             "dishname":"xiaolongbao",
             "dishdesc":"super delicious chinese dim sum",
             "price":"$23.00",
@@ -54,6 +42,19 @@ describe('/POST menu', () => {
           });
     });
 });
+
+describe('/GET menu', () => {
+    it('it should GET the breakfast menu for the first restaurant', (done) => {
+        chai.request('http://localhost:3005')
+            .get('/menus/restaurant/1/menu2/1')
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.text.should.be.a('string');
+            done();
+            });
+    });
+});
+
 
 describe('/PUT menu', () => {
     it('it should UPDATE the breakfast menu for the given menuid', (done) => {
