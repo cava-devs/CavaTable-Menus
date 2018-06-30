@@ -8,10 +8,12 @@
     "node": ">=6.13.0"
   },
   "scripts": {
-    "start": "nodemon server/index.js",
+    "start-dev": "nodemon server/index.js",
     "build": "webpack -d --watch",
     "seed": "psql -U fiona abletable < database/postGen.sql",
-    "test": "mocha --timeout 10000"
+    "test": "mocha --timeout 10000",
+    "start-prod": "node server/index.js",
+    "start": "npm run build | npm run start-prod"
   },
   "dependencies": {
     "axios": "^0.18.0",

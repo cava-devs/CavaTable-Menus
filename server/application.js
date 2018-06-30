@@ -3,7 +3,7 @@ const express = require('express');
 const cluster = require('cluster');
 const redis = require('redis');
 const path = require('path');
-const db = require('../database/index');
+// const db = require('../database/index');
 const sqlhelper = require('../database/postSQLhelper');
 const morgan = require('morgan');
 
@@ -14,7 +14,7 @@ client.on('connect', function() {
 });
 
 const app = express();
-app.use(morgan('dev'));
+// app.use(morgan('dev'));
 
 // Code to run if we're in the master process
 // if (cluster.isMaster) {

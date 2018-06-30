@@ -9,13 +9,8 @@ jobs:
           POSTGRES_HOST: 'localhost'
           POSTGRES_USER: 'root'
           POSTGRES_PORT: 5432
-      - image: circleci/mongo:3.6.5
-    environment:
-      - MONGO_URL: "mongodb://localhost:27017/cavatable_menus"
-      - NODE_ENV: 'test'
     steps:
       - checkout
       - run: npm install
-      - run: apt install postgres-client-9.5
-      - run: psql -u root < database/postSQLSchema.sql
+      - run: npm build
       - run: npm test

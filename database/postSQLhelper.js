@@ -72,7 +72,6 @@ const insertNewDish = ({
 
         pool.query(query)
         .then(res => {
-            console.log(res.rows);
             callback(null, res.rows);
         })
         .catch(e => {
@@ -159,11 +158,24 @@ const getMaxMenuID = (callback) => {
         });
 };
 
+const getMenuByID = (id, callback) => {
+    pool.query(`SELECT * from menu where menu_id = ${id}`)
+        .then((res) => {
+            callback(null, res.rows[0]);
+        })
+        .catch((err) => {
+            callback(err, null);
+        });
+};
+
+
+
 module.exports = {
     getRestMenu,
     insertNewDish,
     mappingTimeANDSection,
     updateDish,
     deleteDish,
-    getMaxMenuID
+    getMaxMenuID,
+    getMenuByID
 };
