@@ -2,8 +2,8 @@
 // process.env.NODE_ENV = 'test';
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const server = require('../server/application.js');
 const should = chai.should();
+const server = require('../server/application');
 const helper = require('../database/postSQLhelper');
 const assert = require('assert');
 const expect = chai.expect;
@@ -40,7 +40,6 @@ describe('get rest Menu', () => {
                 res.should.be.a('string');
                 let menu = JSON.parse(res);
                 menu[0]['meal_time'].should.equal('Lunch');
-                menu[0]['dish_name'].should.equal('iure');
                 done();
             }
         }); 

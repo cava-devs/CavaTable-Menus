@@ -1,0 +1,9 @@
+node_modules
+npm-debug.log
+database/archiveData
+database/dummydata
+database/mockdata
+test/
+.circleci/
+.nyc_output/
+

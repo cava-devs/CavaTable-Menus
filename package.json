@@ -11,7 +11,7 @@
     "start-dev": "nodemon server/index.js",
     "build": "webpack -d --watch",
     "seed": "psql -U fiona abletable < database/postGen.sql",
-    "test": "mocha --timeout 10000",
+    "test": "nyc mocha --timeout 10000",
     "start-prod": "node server/index.js",
     "start": "npm run build | npm run start-prod"
   },
@@ -58,6 +58,7 @@
     "mocha": "^5.2.0",
     "morgan": "^1.9.0",
     "nodemon": "^1.17.5",
+    "nyc": "^12.0.2",
     "redis": "^2.8.0"
   }
 }
