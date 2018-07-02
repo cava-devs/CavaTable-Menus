@@ -247,6 +247,7 @@ describe('/PUT menu', () => {
           .send({"price":"$55.00"})
           .end((err, res) => {
               res.should.have.status(200);
+              res.text.should.equal('Updated');
             done();
           });
     });
@@ -254,11 +255,17 @@ describe('/PUT menu', () => {
 
 describe('/DELETE menu', () => {
     it('it should DELETE the breakfast menu for the given menuid', (done) => {
-      chai.request('http://localhost:3005')
-          .delete('/menus/restaurant/275005648/menu')
-          .end((err, res) => {
-              res.should.have.status(200);
-            done();
-          });
+        helper.getMaxMenuID((error, result) => {
+            if (result) {
+                let menuID = result;
+                chai.request('http://localhost:3005')
+                    .delete(`/menus/restaurant/${menuID}/menu`)
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        res.text.should.equal('Deleted');
+                        done();
+                    });
+            }
+        });
     });
 });

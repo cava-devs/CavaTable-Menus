@@ -3,7 +3,7 @@ const express = require('express');
 const cluster = require('cluster');
 const redis = require('redis');
 const path = require('path');
-const sqlhelper = require('../database/postSQLhelper');
+const helper = require('../database/postSQLhelper');
 const morgan = require('morgan');
 
 const redisHOST = process.env.REDIS_HOST || '127.0.0.1';
@@ -16,7 +16,6 @@ client.on('connect', function() {
 
 const app = express();
 
-const helper = sqlhelper; // set SQL or NONSQL
 
 app.use(express.json());
 
