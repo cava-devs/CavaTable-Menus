@@ -6,4 +6,6 @@ database/mockdata
 test/
 .circleci/
 .nyc_output/
+stress.1.yml
+stress.yml
 
