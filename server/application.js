@@ -25,6 +25,12 @@ app.use('/restaurant/:restaurantId',
   express.static(path.join(__dirname, '../public/index.html')));
 app.use('/menusBundle.js', 
   express.static(path.join(__dirname, '../public/dist/bundle.js')));
+app.use('/loaderio-984d7e10488d648b00a5e16b7b7282db.txt', 
+  express.static(path.join(__dirname, '../public/loaderio-984d7e10488d648b00a5e16b7b7282db.txt')));
+
+app.get('/health', (req,res) => {
+    res.status(200).send('Healthy');
+});
 
 app.get('/menus/restaurant/:restaurantId/menu/:timeId', (req,res, next) => {
   let restaurantId = req.params.restaurantId;
