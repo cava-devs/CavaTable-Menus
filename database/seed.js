@@ -288,7 +288,7 @@ const generateMenuByChunk = (noOfChunk) => {
 
 const generateMenuDietary = () => {
     let noOfMenus = 10000; //1000000
-    let countOfMenus = 20000000; //total menu items estimation //20000000
+    let countOfMenus = 27500793; //total menu items estimation //20000000 //for deploy, use 27500793
     let count = countOfMenus / noOfMenus;
     let start = startID;
     let prevFinished = true;
@@ -307,7 +307,7 @@ const generateMenuDietary = () => {
                 }
             }
            prevFinished = appendFile(
-               './menuDiatery.csv',
+               './menuDiatery1.csv',
                chunkOfData.join("")
            );
         }

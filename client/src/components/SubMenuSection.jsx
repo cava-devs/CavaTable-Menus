@@ -23,7 +23,7 @@ const SubMenuSection = (props) => {
     let filters = Object.keys(filterObj);
     let filteredEntries = entriesArr.filter(entry => {
       for (let i = 0; i < filters.length; i++) {
-        if (!entry.filter_categories[filters[i]]) {
+        if (!entry.dietary_type[filters[i]]) {
           return false;
         }
       }

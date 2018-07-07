@@ -2,8 +2,8 @@
 // process.env.NODE_ENV = 'test';
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const server = require('../server/application.js');
 const should = chai.should();
+const server = require('../server/application');
 const helper = require('../database/postSQLhelper');
 const assert = require('assert');
 const expect = chai.expect;
@@ -40,7 +40,6 @@ describe('get rest Menu', () => {
                 res.should.be.a('string');
                 let menu = JSON.parse(res);
                 menu[0]['meal_time'].should.equal('Lunch');
-                menu[0]['dish_name'].should.equal('iure');
                 done();
             }
         }); 
@@ -248,6 +247,7 @@ describe('/PUT menu', () => {
           .send({"price":"$55.00"})
           .end((err, res) => {
               res.should.have.status(200);
+              res.text.should.equal('Updated');
             done();
           });
     });
@@ -255,11 +255,17 @@ describe('/PUT menu', () => {
 
 describe('/DELETE menu', () => {
     it('it should DELETE the breakfast menu for the given menuid', (done) => {
-      chai.request('http://localhost:3005')
-          .delete('/menus/restaurant/275005648/menu')
-          .end((err, res) => {
-              res.should.have.status(200);
-            done();
-          });
+        helper.getMaxMenuID((error, result) => {
+            if (result) {
+                let menuID = result;
+                chai.request('http://localhost:3005')
+                    .delete(`/menus/restaurant/${menuID}/menu`)
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        res.text.should.equal('Deleted');
+                        done();
+                    });
+            }
+        });
     });
 });
