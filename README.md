@@ -4,11 +4,11 @@
 
 ## Table of Contents
 
-1. [Main Tech](#Main Tech)
+1. [Main-Tech](#Main-Tech)
 2. [Requirements](#requirements)
 3. [Development](#development)
 
-## Main Tech
+## Main-Tech
 
 ### Load testing and Monitor
 > Artillery
