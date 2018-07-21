@@ -1,24 +1,27 @@
 # Project Name
 
-> Menu module of full-stack webpage clone of OpenTable restaurant webpage
-
-## Related Projects
-
-  - https://github.com/cava-devs/anoop-overviews
-  - https://github.com/cava-devs/vincent-photos
-  - https://github.com/cava-devs/andrew-reservation
-  - https://github.com/cava-devs/chrystal-reviews
-  - https://github.com/cava-devs/anoop-proxy-overviews
+> AbleTable restaurant reservation webapp
 
 ## Table of Contents
 
-1. [Usage](#Usage)
-1. [Requirements](#requirements)
-1. [Development](#development)
+1. [Main Tech](#Main Tech)
+2. [Requirements](#requirements)
+3. [Development](#development)
 
-## Usage
+## Main Tech
 
-> Some usage instructions
+### Load testing and Monitor
+> Artillery
+> Loader.io
+> New Relic
+
+### Tools
+> Redis Caching Layer
+> Load Balancer
+
+### Throughput and Latency Demo
+
+<img src="https://github.com/AbleTableHR95/fiona-menus/blob/master/Abletable.png"/>
 
 ## Requirements
 
@@ -35,9 +38,8 @@ From within the root directory:
 
 ```sh
 Run "npm install" to install dependencies.
-Start MongoDB
 Run "npm run build" to build webpack bundle
 Run "npm start" to start the server
-Add "/restaurant/{id}" to the end of the url. (id range is from 1001 to 1100)
+Add "/restaurant/{id}" to the end of the url. (id range is from 1 to 1000000)
 ```
 
