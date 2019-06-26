@@ -23,7 +23,7 @@ const SubMenuSection = (props) => {
     let filters = Object.keys(filterObj);
     let filteredEntries = entriesArr.filter(entry => {
       for (let i = 0; i < filters.length; i++) {
-        if (!entry.filter_categories[filters[i]]) {
+        if (!entry.dietary_type[filters[i]]) {
           return false;
         }
       }
@@ -32,6 +32,7 @@ const SubMenuSection = (props) => {
     return filteredEntries;
   };
 
+  //filter entries on selected filters - vegan or something
   let filteredEntries = filterEntries(props.sectionObj.entries, props.filterObj);
 
   return (

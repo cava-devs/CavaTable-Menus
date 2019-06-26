@@ -1,0 +1,76 @@
+config:
+  target: "http://localhost:3005"
+  phases:
+    - duration: 60
+      arrivalRate: 1
+      name: "Warm up the application"
+    - duration: 120
+      arrivalRate: 1
+      rampTo: 10
+      name: "jump to max load"
+    - duration: 600
+      arrivalRate: 10
+      name: "keep at the max load"
+    - duration: 600
+      arrivalRate: 15
+      name: "keep at the max load"
+    - duration: 30
+      arrivalRate: 10
+      rampTo: 5
+      name: "cool down to a lower load"
+    - duration: 30
+      arrivalRate: 5
+      rampTo: 1
+      name: "calm down"
+  defaults:
+    headers:
+      x-my-service-auth: '987401838271002188298567'
+
+scenarios:
+    - flow:
+        - loop:
+            - get:
+                url: "/menus/restaurant/{{$randomNumber(1, 1000)}}/menu/1"
+          count: 100
+        - loop:
+            - get:
+                url: "/menus/restaurant/{{$randomNumber(2000, 1000000)}}/menu/1"
+          count: 1
+
+
+# phases:
+#     - duration: 60
+#       arrivalRate: 10
+#       rampTo: 50
+#       name: "Warm up the application"
+#     - duration: 60
+#       arrivalRate: 20
+#       rampTo: 100
+#       name: "warm up again"
+#     - duration: 60
+#       arrivalRate: 100
+#       name: "keep stable on big load"
+#     - duration: 60
+#       arrivalRate: 100
+#       rampTo: 20
+#       name: "calming down" 
+#     - duration: 60
+#       arrivalRate: 50
+#       rampTo: 1000
+#       name: "jump to max load"
+#     - duration: 60
+#       arrivalRate: 1000
+#       name: "Sustained max load"
+#     - duration: 60
+#       arrivalRate: 1000
+#       rampTo: 500
+#       name: "Slow down"
+#     - duration: 60
+#       arrivalRate: 50
+#       name: "Calm down"
+
+# scenarios:
+# - flow:
+#   - get:
+#       # url: "/menus/restaurant/1/menu2/1"
+#       url: "/menus/restaurant/{{$randomNumber(1, 1000)}}/menu2/1"

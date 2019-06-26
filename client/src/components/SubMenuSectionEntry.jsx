@@ -46,7 +46,6 @@ class SubMenuSectionEntry extends React.Component {
     return (
       <Motion defaultStyle={{translateX: 0}} style={{translateX: spring(7, {stiffness: 180, damping: 6})}}>
         {style => {
-          console.log(style);
           return this.state.isHovered ? (
             <div className={styles.entryContainer} style={{transform: `translateX(${style.translateX}px)`}} onClick={this.handleMenuEntryClick} onMouseLeave={this.handleMouseLeave} onMouseEnter={this.handleMouseEnter}>
               <Collapse isOpened={this.state.isActive} theme={{collapse: styles.collapseContainer, content: styles.menuImgContainer}} springConfig={{stiffness: 180, damping: 18}}
@@ -71,7 +70,7 @@ class SubMenuSectionEntry extends React.Component {
                 <div className={styles.entryDescription}>{this.props.entry.desc}</div>
               </div>
             </div>
-          )
+          );
         }}
       </Motion>
     );

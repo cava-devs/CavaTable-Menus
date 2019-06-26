@@ -16,10 +16,10 @@ class Menu extends React.Component {
       selectedFilters: {},
       displayAll: false,
     };
-    this.subMenusList = [];
+    this.time = 1;
+    this.subMenusList = ['breakfast', 'lunch', 'dinner'];//
     this.getMenuObj();
     this.handleScroll();
-    console.log(filterTitle);
 
     this.handleMenuBtnClick = this.handleMenuBtnClick.bind(this);
     this.handleFilterBtnClick = this.handleFilterBtnClick.bind(this);
@@ -27,33 +27,97 @@ class Menu extends React.Component {
   }
 
   getMenuObj() {
-    axios.get(`/menus/restaurant/${this.props.match.params.restaurantId}/menu`)
+    axios.get(`/menus/restaurant/${this.props.match.params.restaurantId}/menu/${this.time}`)
       .then(response => {
-        this.findSubMenusList(response.data[0]);
+        let formatData = this.formatMenuData(response.data);
+        let formatData2 = this.formatMenuData2(formatData);
         this.setState({
-          menu: response.data[0],
-          selectedSubMenu: this.subMenusList[0],
+          menu: formatData2,
+          selectedSubMenu: this.subMenusList[this.time - 1]
         });
       })
       .catch(err => console.error(err));
   }
 
-  findSubMenusList(menuObj) {
-    const subMenusList = [];
-    const properties = Object.keys(menuObj);
-    properties.forEach(prop => {
-      if (Array.isArray(menuObj[prop])) {
-        subMenusList.push(prop);
+  formatMenuData(arrayOfData) {
+    let dishData = {};
+    for (let i = 0; i < arrayOfData.length; i++) {
+        let dish= arrayOfData[i];
+        if (dishData[dish.menu_id]) {
+            dishData[dish.menu_id].dietary_type[dish.dietary_type] = true;
+        } else {
+            dishData[dish.menu_id] = {
+                name: dish.dish_name,
+                desc: dish.dish_desc,
+                price: dish.price,
+                photoUrl: dish.photo_url,
+                meal_time: dish.meal_time,
+                section_name: dish.section_name,
+                dietary_type: {}
+            };
+            dishData[dish.menu_id].dietary_type[dish.dietary_type] = true;
+        }
+    }
+    let keys = Object.keys(dishData);
+    let output = [];
+    for (let k = 0; k < keys.length; k++) {
+        let value = dishData[keys[k]];
+        value['menu_id'] = keys[k];
+        output.push(value);
+    }
+    return output;
+  }
+
+  formatMenuData2(arrayOfData) {
+    let output = {
+      rest_id: this.props.match.params.restaurantId,
+      breakfast: [],
+      lunch: [],
+      dinner: []
+    };
+    let sections = {};
+    for (let i = 0; i < arrayOfData.length; i++) {
+      let sectionname = arrayOfData[i].section_name;
+      sections[sectionname] = sections[sectionname] || [];
+      sections[sectionname].push(arrayOfData[i]);
+    }
+    let menuSections = Object.keys(sections);
+    if (this.time === 1) {
+      for (let i = 0; i < menuSections.length; i++) {
+        let temp = {
+          menu_section: menuSections[i],
+          entries: sections[menuSections[i]]
+        };
+        output.breakfast.push(temp);
       }
-    });
-    this.subMenusList = subMenusList;
+    } else if (this.time === 2) {
+      for (let i = 0; i < menuSections.length; i++) {
+        let temp = {
+          menu_section: menuSections[i],
+          entries: sections[menuSections[i]]
+        };
+        output.lunch.push(temp);
+      }
+    } else {
+      for (let i = 0; i < menuSections.length; i++) {
+        let temp = {
+          menu_section: menuSections[i],
+          entries: sections[menuSections[i]]
+        };
+        output.dinner.push(temp);
+      }
+    }
+    return output;
   }
 
   handleMenuBtnClick(event) {
     let innerHTML = event.target.innerHTML.toLowerCase().replace(' ', '_');
+    this.time = innerHTML === 'breakfast' ? 1 : innerHTML === 'lunch'? 2 : 3;
+    //change breakfast/lunch/dinner here
     this.setState({
       selectedSubMenu: innerHTML,
     });
+    this.getMenuObj();
   }
 
   handleFilterBtnClick(event) {
@@ -110,6 +174,7 @@ class Menu extends React.Component {
         <div className={`card-body ${styles.menuBody}`}>
           <h3 className={styles['menu-title']}>Menu</h3>
           <div className={styles.menuBtnContainer}>
+            {/* mapping breakfast, lunch and dinner buttons */}
             {this.subMenusList.map((subMenu, i) => {
               return <MenuButton name={subMenu} selectedSubMenu={this.state.selectedSubMenu} key={i} 
                       handleClick={this.handleMenuBtnClick} />;
@@ -117,10 +182,10 @@ class Menu extends React.Component {
             <FilterMenu filters={this.state.selectedFilters} handleClick={this.handleFilterBtnClick} />
           </div>
           <div id="menuContentContainer" className={styles.hidden}>
-            {this.state.selectedSubMenu.length > 0 ? 
+            {this.state.selectedSubMenu.length ?
             this.state.menu[this.state.selectedSubMenu].map((sectionObj, i) => {
               return <SubMenuSection sectionObj={sectionObj} filterObj={this.state.selectedFilters} key={i} />;
-            }) : null}
+            }): null}
           </div>
           {!this.state.displayAll ? <div className={styles.fade}>&nbsp;</div> : null}
         </div>

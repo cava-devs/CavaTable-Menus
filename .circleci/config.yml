@@ -3,10 +3,14 @@ jobs:
   build:
     docker:
       - image: circleci/node:8.11.1
-      - image: circleci/mongo:3.6.5
-    environment:
-      - MONGO_URL: "mongodb://localhost:27017/cavatable_menus"
+      - image: circleci/postgres:9.5.13-alpine-ram
+        environment:
+          POSTGRES_DB: 'abletable'
+          POSTGRES_HOST: 'localhost'
+          POSTGRES_USER: 'root'
+          POSTGRES_PORT: 5432
     steps:
       - checkout
       - run: npm install
+      - run: npm build
       - run: npm test
